@@ -1,17 +1,22 @@
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import Login from "../Login/Login";
+import SignIn from "../Login/SignIn";
+import SignUp from "../Login/SignUp";
+
 import "../App/App.css";
 
 function App() {
-  return (
-    <BrowserRouter>
+	return (
+		<BrowserRouter>
 			<Switch>
 				<Route path="/" exact>
-					<Login></Login>
+					<SignIn></SignIn>
+				</Route>
+				<Route path ="/cadastro" exact>
+					<SignUp></SignUp>
 				</Route>
 			</Switch>
 		</BrowserRouter>
-  );
+	);
 }
 
 export default App;

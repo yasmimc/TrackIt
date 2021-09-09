@@ -1,25 +1,6 @@
 import styled from "styled-components";
-import logo from "../Login/logo.jpg"
 
-export default function Login(){
-    return(
-        <LoginScreen>
-            <Logo>
-                <img src={logo} alt="logo"/>
-            </Logo>
-            <input placeholder="email"/>
-            <input placeholder="senha"/>
-            <Enter>
-                Entrar
-            </Enter>
-            <SignIn>
-                Não tem uma conta? Cadastre-se!
-            </SignIn>
-        </LoginScreen>
-    );
-}
-
-const LoginScreen = styled.div`
+const Screen = styled.div`
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -48,7 +29,7 @@ const Logo = styled.div`
         margin-bottom: 32px;
     }
 `
-const Enter = styled.button`
+const SubmitBtn = styled.button`
     width: 303px;
     height: 45px;
     font-size: 21px;
@@ -59,9 +40,16 @@ const Enter = styled.button`
     border-radius: 4.63636px;
 `
 
-const SignIn = styled.div`
+const Redirect = styled.div`
     color: #52B6FF;
     font-size: 14px;
     text-decoration: underline;
     margin-top: 25px;
 `
+
+export {
+    Screen,
+    Logo,
+    SubmitBtn,
+    Redirect
+} 
