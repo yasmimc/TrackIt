@@ -15,6 +15,7 @@ import Loader from "react-loader-spinner";
 
 import { signIn } from "../../services/trackit";
 import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 
 export default function Login(){
     const { user, setUser } = useContext(UserContext);
@@ -29,13 +30,14 @@ export default function Login(){
         setLoading(true)
         signIn(user)
             .then((resp)=>{
-                console.log(resp)
+                // console.log(resp)
                 setLoading(false)
                 history.push("/hoje");
             })
             .catch((err)=>{
-                console.log(err.response)
+                // console.log(err.response)
                 setLoading(false)
+                alert("Erro: por favor, verifique se seu email e senha estão corretos.")
             })
     }
     return(
@@ -56,7 +58,9 @@ export default function Login(){
                 /> : "Entrar"}
             </Button>
             <Redirect>
-                Não tem uma conta? Cadastre-se!
+                <Link to="/cadastro">
+                    Não tem uma conta? Cadastre-se!
+                </Link>
             </Redirect>
         </Screen>
     );
