@@ -6,7 +6,10 @@ export default function Habits() {
     return (
         <Container>
             <Header></Header>
-            <h1>Meus hábitos</h1>
+            <Title>
+                <h1>Meus hábitos</h1>
+                <Button>+</Button>
+            </Title>
             Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!
             <Footer></Footer>
         </Container>
@@ -30,4 +33,19 @@ const Container = styled.div`
         color: #126BA5;
         margin-bottom: 28px;
     }
+`
+
+const Title = styled.div`
+    display: flex;
+    justify-content: space-between;
+`
+const Button = styled.button`
+    border: none;
+    height: 35px;
+    width: 40px;
+    font-size: larger;
+    color: #FFFFFF;
+
+    background-color: #52B6FF;
+    border-radius: 4.63636px;
 `

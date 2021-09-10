@@ -33,6 +33,7 @@ const Container = styled.div`
         justify-content: space-between;
         align-items: center;
         height: 70px;
+        color: #52B6FF;
     }
 `
 const Today = styled.li`
