@@ -14,16 +14,6 @@ const Logo = styled.div`
         margin-bottom: 32px;
     }
 `
-const SubmitBtn = styled.button`
-    width: 303px;
-    height: 45px;
-    font-size: 21px;
-    color: #FFFFFF;
-
-    border: none;
-    background: #52B6FF;
-    border-radius: 4.63636px;
-`
 
 const Redirect = styled.div`
     color: #52B6FF;
@@ -35,6 +25,5 @@ const Redirect = styled.div`
 export {
     Screen,
     Logo,
-    SubmitBtn,
     Redirect
 } 

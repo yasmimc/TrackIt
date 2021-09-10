@@ -5,7 +5,6 @@ import logo from "../../assets/images/logo.jpg"
 import {
     Screen,
     Logo,
-    SubmitBtn,
     Redirect
 } from "../shared/LoginForms";
 import Input from "../shared/Input";
@@ -19,11 +18,11 @@ import { Link } from 'react-router-dom';
 
 export default function Login(){
     const { user, setUser } = useContext(UserContext);
-    const [ loading, setLoading ] = useState(false);
+    const [ isLoading, setLoading ] = useState(false);
 
     const history = useHistory();
 
-    console.log(!!loading);
+    console.log(!!isLoading);
     function login(){
         if (!user) return;
         if (!user.email || !user.password) return;
@@ -45,10 +44,10 @@ export default function Login(){
             <Logo>
                 <img src={logo} alt="logo"/>
             </Logo>
-            <Input disabled={loading} placeholder="email" onChange={(e)=>setUser({...user, email: e.target.value})}/>
-            <Input disabled={loading} placeholder="senha" onChange={(e)=>setUser({...user, password: e.target.value})}/>
-            <Button disabled={loading} onClick={login} width={303} height={45}>
-                {loading ? 
+            <Input disabled={isLoading} placeholder="email" onChange={(e)=>setUser({...user, email: e.target.value})}/>
+            <Input disabled={isLoading} placeholder="senha" onChange={(e)=>setUser({...user, password: e.target.value})}/>
+            <Button disabled={isLoading} onClick={login} width={303} height={45}>
+                {isLoading ? 
                 <Loader
                     type="ThreeDots"
                     color="#FFFFFF"
