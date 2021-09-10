@@ -1,10 +1,11 @@
-import logo from "../Login/logo.jpg"
+import logo from "../../assets/images/logo.jpg"
 import {
     Screen,
     Logo,
     SubmitBtn,
     Redirect
-} from "./style";
+} from "../shared/LoginForms";
+import Input from "../shared/Input";
 
 export default function Login(){
     return(
@@ -12,8 +13,8 @@ export default function Login(){
             <Logo>
                 <img src={logo} alt="logo"/>
             </Logo>
-            <input placeholder="email"/>
-            <input placeholder="senha"/>
+            <Input placeholder="email"/>
+            <Input placeholder="senha"/>
             <SubmitBtn>
                 Entrar
             </SubmitBtn>
