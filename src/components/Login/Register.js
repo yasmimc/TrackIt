@@ -29,7 +29,8 @@ export default function Register() {
             })
             .catch((err)=>{
                 setLoading(false);
-                console.log(err.response)
+                // console.log(err.response)
+                alert("Erro: por favor, verifique se seus dados de resgistro estão corretos.")
             })
     }
 
