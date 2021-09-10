@@ -13,10 +13,13 @@ import { signUp } from '../../services/trackit';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Loader from "react-loader-spinner";
 import Button from '../shared/Button';
+import { useHistory } from 'react-router';
 
 export default function Register() {
     const [ user, setUser ] = useState(null);
     const [ isLoading, setLoading ] = useState(false);
+
+    const history = useHistory();
 
     function register(){
         if (!user) return;
@@ -25,11 +28,14 @@ export default function Register() {
         signUp(user)
             .then((resp)=>{
                 setLoading(false);
-                console.log(resp)
+                // console.log(resp)
+                history.push("/");
             })
             .catch((err)=>{
                 setLoading(false);
-                // console.log(err.response)
+                console.log(err.response)
+                if (err.response.status === 409)
+                    return alert("Usuário já cadastrado");
                 alert("Erro: por favor, verifique se seus dados de resgistro estão corretos.")
             })
     }
