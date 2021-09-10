@@ -2,6 +2,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Login from "../Login/Login";
 import Register from "../Login/Register";
 import Habits from "../Habits/Habits";
+import Today from "../Today/Today";
 
 import "../App/App.css";
 
@@ -17,6 +18,9 @@ function App() {
 				</Route>
 				<Route path ="/habitos" exact>
 					<Habits></Habits>
+				</Route>
+				<Route path ="/hoje" exact>
+					<Today></Today>
 				</Route>
 			</Switch>
 		</BrowserRouter>
