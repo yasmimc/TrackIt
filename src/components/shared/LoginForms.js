@@ -4,7 +4,7 @@ const Screen = styled.div`
     height: 100vh;
     display: flex;
     flex-direction: column;
-    align-items: center;    
+    align-items: center;
 `
 
 const Logo = styled.div`

@@ -1,5 +1,4 @@
-import React, { useContext } from 'react';
-import UserContext from '../../contexts/UserContext';
+import React, { useState } from 'react';
 
 import logo from "../../assets/images/logo.jpg"
 import {
@@ -10,14 +9,19 @@ import {
 } from "../shared/LoginForms";
 import Input from "../shared/Input";
 
-import { postNewUser } from '../../services/trackit';
+import { signUp } from '../../services/trackit';
 
 export default function Register() {
-    const { user, setUser } = useContext(UserContext);
+    const { user, setUser } = useState({
+        email: "", 
+		name: "",
+		image: "",
+		password: ""
+    });
 
     function register(){
         if (!user.email || !user.password || !user.name || !user.image) return;
-        postNewUser(user)
+        signUp(user)
             .then((resp)=>console.log(resp))
             .catch((err)=>console.log(err.response))
     }

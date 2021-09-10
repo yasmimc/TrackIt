@@ -11,12 +11,7 @@ import { useContext, useState } from "react";
 import "../App/App.css";
 
 function App() {
-	const [user, setUser] = useState({
-		email: "", 
-		name: "",
-		image: "",
-		password: ""
-	})
+	const [user, setUser] = useState(null)
 	
 	return (
 		<UserContext.Provider value={{user, setUser}}>
