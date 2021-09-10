@@ -14,10 +14,13 @@ import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Loader from "react-loader-spinner";
 
 import { signIn } from "../../services/trackit";
+import { useHistory } from 'react-router';
 
 export default function Login(){
     const { user, setUser } = useContext(UserContext);
     const [ loading, setLoading ] = useState(false);
+
+    const history = useHistory();
 
     console.log(!!loading);
     function login(){
@@ -28,6 +31,7 @@ export default function Login(){
             .then((resp)=>{
                 console.log(resp)
                 setLoading(false)
+                history.push("/hoje");
             })
             .catch((err)=>{
                 console.log(err.response)

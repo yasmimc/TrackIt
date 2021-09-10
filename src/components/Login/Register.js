@@ -12,12 +12,7 @@ import Input from "../shared/Input";
 import { signUp } from '../../services/trackit';
 
 export default function Register() {
-    const { user, setUser } = useState({
-        email: "", 
-		name: "",
-		image: "",
-		password: ""
-    });
+    const [ user, setUser ] = useState(null);
 
     function register(){
         if (!user.email || !user.password || !user.name || !user.image) return;
