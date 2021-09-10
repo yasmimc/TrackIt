@@ -29,7 +29,7 @@ export default function Login(){
         setLoading(true)
         signIn(user)
             .then((resp)=>{
-                // console.log(resp)
+                console.log(resp)
                 setLoading(false)
                 history.push("/hoje");
             })

@@ -14,6 +14,7 @@ import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Loader from "react-loader-spinner";
 import Button from '../shared/Button';
 import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 
 export default function Register() {
     const [ user, setUser ] = useState(null);
@@ -59,7 +60,9 @@ export default function Register() {
                 /> : "Cadastrar"}
             </Button>
             <Redirect>
-                Já tem uma conta? Faça login!
+               <Link to="/">
+                    Já tem uma conta? Faça login!
+               </Link>
             </Redirect>
         </Screen>
     );
