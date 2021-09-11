@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export default function Footer() {
@@ -5,13 +6,13 @@ export default function Footer() {
         <Container>
             <ul>
                 <li>
-                    Hábitos
+                    <Link to="/habitos">Hábitos</Link>
                 </li>
                 <Today>
-                    Hoje
+                    <Link to="/hoje">Hoje</Link>
                 </Today>
                 <li>
-                    Histórico
+                    <Link to="historico">Histórico</Link>
                 </li>
             </ul>
         </Container>
