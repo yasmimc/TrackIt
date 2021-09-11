@@ -3,10 +3,10 @@ import styled from "styled-components";
 const Button = styled.button`
     
     font-size: 21px;
-    color: #FFFFFF;
+    color: ${props=>props.type === "cancel" ? "#52B6FF" : "#FFFFFF"};
 
     border: none;
-    background: #52B6FF;
+    background: ${props=>props.type === "cancel" ? "#FFFFFF" : "#52B6FF"};
     border-radius: 4.63636px;
 
     width: ${props=>props.width}px;
