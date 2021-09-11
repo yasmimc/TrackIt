@@ -18,7 +18,7 @@ import { Link } from 'react-router-dom';
 
 export default function Login() {
     const [user, setUser] = useState(null);
-    const { userProfile, setUserProfile } = useContext(UserContext);
+    const { loggegUser, setLoggegUser } = useContext(UserContext);
     const [isLoading, setLoading] = useState(false);
 
     const history = useHistory();
@@ -26,13 +26,11 @@ export default function Login() {
     console.log(!!isLoading);
     function login(event) {
         event.preventDefault();
-        if (!user) return;
-        if (!user.email || !user.password) return;
         setLoading(true)
         signIn(user)
             .then((resp) => {
                 console.log(resp)
-                setUserProfile({
+                setLoggegUser({
                     name: resp.data.name,
                     image: resp.data.image
                 })

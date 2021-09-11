@@ -6,12 +6,14 @@ import { useContext } from "react";
 
 export default function Header() {
 
-    const { userProfile } = useContext(UserContext);
-    console.log(userProfile);
+    const { loggegUser } = useContext(UserContext);
+    console.log(loggegUser);
     return (
         <Container>
             <img src={header_logo} alt="header-logo"/>
-            <Profile></Profile>
+            <Profile>
+                <img src={loggegUser.image} alt="profileImg"/>
+            </Profile>
         </Container>
     );
 }
@@ -42,4 +44,13 @@ const Profile = styled.div`
 
     background-color: white;
     border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+        border-radius: 50%;
+        width: 51px;
+        height: 51px;
+    }
 `

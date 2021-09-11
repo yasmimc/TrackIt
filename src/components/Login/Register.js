@@ -24,8 +24,6 @@ export default function Register() {
 
     function register(event) {
         event.preventDefault();
-        if (!user) return;
-        if (!user.email || !user.password || !user.name || !user.image) return;
         setLoading(true);
         signUp(user)
             .then((resp) => {

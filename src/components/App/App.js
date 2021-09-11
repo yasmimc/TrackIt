@@ -11,10 +11,10 @@ import { useState } from "react";
 import "../App/App.css";
 
 function App() {
-	const [userProfile, setUserProfile] = useState(null)
+	const [loggegUser, setLoggegUser] = useState(null)
 	
 	return (
-		<UserContext.Provider value={{userProfile, setUserProfile}}>
+		<UserContext.Provider value={{loggegUser, setLoggegUser}}>
 			<BrowserRouter>
 				<Switch>
 					<Route path="/" exact>
