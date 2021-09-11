@@ -4,7 +4,6 @@ import Header from "../Header/Header";
 import Container from "../shared/Container";
 import { IoCheckmarkOutline } from "react-icons/io5";
 
-
 export default function Today() {
     return (
         <>

@@ -18,7 +18,7 @@ import { Link } from 'react-router-dom';
 
 export default function Login() {
     const [user, setUser] = useState(null);
-    const { loggegUser, setLoggegUser } = useContext(UserContext);
+    const { setLoggegUser } = useContext(UserContext);
     const [isLoading, setLoading] = useState(false);
 
     const history = useHistory();
@@ -32,7 +32,8 @@ export default function Login() {
                 console.log(resp)
                 setLoggegUser({
                     name: resp.data.name,
-                    image: resp.data.image
+                    image: resp.data.image,
+                    token: resp.data.token
                 })
                 setLoading(false)
                 history.push("/hoje");
