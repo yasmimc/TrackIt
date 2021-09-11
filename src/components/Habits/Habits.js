@@ -6,10 +6,14 @@ import Input from "../shared/Input";
 import { useContext, useEffect, useState } from "react";
 
 import Button from "../shared/Button";
+import DayInput from "../shared/DayInput";
+
+import Habit from "./Habit";
 
 import { getHabits, createNewHabit } from "../../services/trackit";
 import UserContext from "../../contexts/UserContext";
-import { useHistory } from "react-router";
+
+import { defaultWeekDays } from "../../services/habits";
 
 export default function Habits() {
 
@@ -36,50 +40,26 @@ export default function Habits() {
             })
     }, []);
 
-    function selectDays() {
+    function selectDay(day, index) {
+        const tmpSelectedDaysWeek = [...selectedDaysWeek];
+        if (day.isSelected) {
+            tmpSelectedDaysWeek[index].isSelected = false;
+            setSelectedDaysWeek(tmpSelectedDaysWeek);
+        }
+        else {
+            tmpSelectedDaysWeek[index].isSelected = true;
+            setSelectedDaysWeek(tmpSelectedDaysWeek);
+        }      
         setNewHabit({ ...newHabit, days: (selectedDaysWeek.filter((day) => day.isSelected)).map((dayFiltered, index) => (index)) })
     }
 
-    const [selectedDaysWeek, setSelectedDaysWeek] = useState([
-        {
-            value: "D",
-            isSelected: false
-        },
-        {
-            value: "S",
-            isSelected: false
-        },
-        {
-            value: "T",
-            isSelected: false
-        },
-        {
-            value: "Q",
-            isSelected: false
-        },
-        {
-            value: "Q",
-            isSelected: false
-        },
-        {
-            value: "S",
-            isSelected: false
-        },
-        {
-            value: "S",
-            isSelected: false
-        }
-    ]);
-
-    const history = useHistory();
+    const [selectedDaysWeek, setSelectedDaysWeek] = useState(defaultWeekDays);
 
     function createHabit(event) {
         event.preventDefault();
         if (!selectedDaysWeek.find((day) => day.isSelected))
             return alert("Escolha pelo menos um dia da semana");
         createNewHabit(loggedUser.token, newHabit);
-        history.push("/hoje")
-        history.push("/habitos");
     }
 
     return (
@@ -94,27 +74,14 @@ export default function Habits() {
 
             {creatingHabit ?
                 <Form visible onSubmit={createHabit}>
+
                     <Input placeholder="nome do hábito" required
                         onChange={(e) => setNewHabit({ ...newHabit, name: e.target.value })}
                     />
-
                     <div>
                         {selectedDaysWeek.map((day, index) => (
-
                             <DayInput type="button" value={day.value} selected={day.isSelected}
-                                onClick={() => {
-
-                                    const tmpSelectedDaysWeek = [...selectedDaysWeek];
-                                    if (day.isSelected) {
-                                        tmpSelectedDaysWeek[index].isSelected = false;
-                                        setSelectedDaysWeek(tmpSelectedDaysWeek);
-                                    }
-                                    else {
-                                        tmpSelectedDaysWeek[index].isSelected = true;
-                                        setSelectedDaysWeek(tmpSelectedDaysWeek);
-                                    }
-                                    selectDays();
-                                }} />
+                                onClick={()=>selectDay(day, index)} />
                         ))}
 
                     </div>
@@ -126,25 +93,12 @@ export default function Habits() {
                 </Form> : ""}
 
 
-            <div>
+            <HabitsList>
                 {habits.length > 0 ? habits.map((habit) => (
-
-                    <Habit >
-                        {habit.name}
-                        <div>
-                            {selectedDaysWeek.map((day, index) => {                                
-                                return (
-                                    <DayInput type="button" value={day.value} selected={habit.days.includes(index)}
-                                    />
-                                )
-                            })}
-
-                        </div>
-
-                    </Habit>
+                    <Habit habit={habit} defaultWeekDays={defaultWeekDays}/>
                 )) : <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>}
 
-            </div>
+            </HabitsList>
 
 
             <Footer></Footer>
@@ -175,37 +129,9 @@ const Form = styled.form`
     }
 `
 
-const Habit = styled.div`
-    background-color: #FFFFFF;
-    border-radius: 5px;
-    padding: 18px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    margin-top: 5px;
-
-    button {
-        margin-top: 29px;
-        margin-right: 4px;
-        font-size: 16px;
-    }
-`
-
-const DayInput = styled.input`
-    width: 30px;
-    height: 30px;
-    text-align: center;
-    font-size: 20px;
-
-    margin: 2px;
-
-    border: 1px solid #D5D5D5;
-    border-radius: 5px;
-    background-color: ${props => props.selected ? '#CFCFCF' : '#FFFFFF'};
-    
-    color: ${props => props.selected ? '#FFFFFF' : '#DBDBDB'};    
-`
-
 const Buttons = styled.div`
-    padding-left: 130px;
+    padding-left: 120px;
+`
+
+const HabitsList = styled.div`
 `
