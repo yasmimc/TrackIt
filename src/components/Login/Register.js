@@ -33,7 +33,7 @@ export default function Register() {
             })
             .catch((err) => {
                 setLoading(false);
-                console.log(err.response)
+                // console.log(err.response)
                 if (err.response.status === 409)
                     return alert("Usuário já cadastrado");
                 alert("Erro: por favor, verifique se seus dados de resgistro estão corretos.")

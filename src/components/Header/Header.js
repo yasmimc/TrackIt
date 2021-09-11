@@ -6,13 +6,13 @@ import { useContext } from "react";
 
 export default function Header() {
 
-    const { loggegUser } = useContext(UserContext);
-    console.log(loggegUser);
+    const { loggedUser } = useContext(UserContext);
+    // console.log(loggedUser);
     return (
         <Container>
             <img src={header_logo} alt="header-logo"/>
             <Profile>
-                <img src={loggegUser.image} alt="profileImg"/>
+                <img src={loggedUser.image} alt="profileImg"/>
             </Profile>
         </Container>
     );

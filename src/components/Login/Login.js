@@ -18,23 +18,25 @@ import { Link } from 'react-router-dom';
 
 export default function Login() {
     const [user, setUser] = useState(null);
-    const { setLoggegUser } = useContext(UserContext);
+    const { loggedUser, setLoggedUser } = useContext(UserContext);
     const [isLoading, setLoading] = useState(false);
+
+    // console.log(loggedUser)
 
     const history = useHistory();
 
-    console.log(!!isLoading);
     function login(event) {
         event.preventDefault();
         setLoading(true)
         signIn(user)
             .then((resp) => {
-                console.log(resp)
-                setLoggegUser({
+                // console.log(resp.data)
+                setLoggedUser({
                     name: resp.data.name,
                     image: resp.data.image,
                     token: resp.data.token
                 })
+                // console.log(loggedUser)
                 setLoading(false)
                 history.push("/hoje");
             })

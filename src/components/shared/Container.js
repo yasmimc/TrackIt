@@ -4,10 +4,11 @@ const Container = styled.div`
     position: absolute;
     top: 70px;
     left: 0;
-    height: calc(100vh - 70px);
+    min-height: calc(100vh - 70px);
     width: 100vw;
     background-color: #E5E5E5;
     padding: 28px 17px;
+    padding-bottom: 98px;
     
     color: #666666;
     font-size: 18px;

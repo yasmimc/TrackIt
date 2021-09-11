@@ -4,7 +4,13 @@ import Header from "../Header/Header";
 import Container from "../shared/Container";
 import { IoCheckmarkOutline } from "react-icons/io5";
 
+import UserContext from "../../contexts/UserContext";
+import { useContext } from "react";
+
 export default function Today() {
+    const { loggedUser, setLoggedUser } = useContext(UserContext);
+    // console.log(loggedUser)
+
     return (
         <>
             <Header></Header>
