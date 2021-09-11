@@ -18,10 +18,8 @@ import { Link } from 'react-router-dom';
 
 export default function Login() {
     const [user, setUser] = useState(null);
-    const { loggedUser, setLoggedUser } = useContext(UserContext);
+    const { setLoggedUser } = useContext(UserContext);
     const [isLoading, setLoading] = useState(false);
-
-    // console.log(loggedUser)
 
     const history = useHistory();
 

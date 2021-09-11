@@ -30,18 +30,20 @@ export default function Habits() {
     }
 
     const [habits, setHabits] = useState([]);
-    console.log(habits)
 
     useEffect(() => {
         getHabits(loggedUser.token)
             .then((resp) => {
                 setHabits(resp.data)
-                // console.log(resp)
             })
     }, []);
 
+    const [selectedDaysWeek, setSelectedDaysWeek] = useState(defaultWeekDays);
+
+
     function selectDay(day, index) {
-        const tmpSelectedDaysWeek = [...selectedDaysWeek];
+    const tmpSelectedDaysWeek = [...selectedDaysWeek];
+
         if (day.isSelected) {
             tmpSelectedDaysWeek[index].isSelected = false;
             setSelectedDaysWeek(tmpSelectedDaysWeek);
@@ -53,13 +55,22 @@ export default function Habits() {
         setNewHabit({ ...newHabit, days: (selectedDaysWeek.filter((day) => day.isSelected)).map((dayFiltered, index) => (index)) })
     }
 
-    const [selectedDaysWeek, setSelectedDaysWeek] = useState(defaultWeekDays);
-
     function createHabit(event) {
         event.preventDefault();
         if (!selectedDaysWeek.find((day) => day.isSelected))
             return alert("Escolha pelo menos um dia da semana");
-        createNewHabit(loggedUser.token, newHabit);
+        createNewHabit(loggedUser.token, newHabit).then(()=>{
+            getHabits(loggedUser.token)
+            .then((resp) => {
+                setHabits(resp.data)
+            })
+        })
+        setSelectedDaysWeek(defaultWeekDays);
+        setCreatingHabit(false);
+        setNewHabit({
+            name: "",
+            days: []
+        })
     }
 
     return (
@@ -73,7 +84,7 @@ export default function Habits() {
             </Title>
 
             {creatingHabit ?
-                <Form visible onSubmit={createHabit}>
+                <Form onSubmit={createHabit}>
 
                     <Input placeholder="nome do hábito" required
                         onChange={(e) => setNewHabit({ ...newHabit, name: e.target.value })}

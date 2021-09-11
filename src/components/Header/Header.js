@@ -7,7 +7,6 @@ import { useContext } from "react";
 export default function Header() {
 
     const { loggedUser } = useContext(UserContext);
-    // console.log(loggedUser);
     return (
         <Container>
             <img src={header_logo} alt="header-logo"/>
