@@ -1,19 +1,19 @@
 import styled from "styled-components";
+import { useContext, useEffect, useState } from "react";
+import UserContext from "../../contexts/UserContext";
+
+import { getHabits, createNewHabit } from "../../services/trackit";
+import { defaultWeekDays } from "../../services/habits";
+
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
+import Habit from "./Habit";
+
 import Container from "../shared/Container";
 import Input from "../shared/Input";
-import { useContext, useEffect, useState } from "react";
 
 import Button from "../shared/Button";
 import DayInput from "../shared/DayInput";
-
-import Habit from "./Habit";
-
-import { getHabits, createNewHabit } from "../../services/trackit";
-import UserContext from "../../contexts/UserContext";
-
-import { defaultWeekDays } from "../../services/habits";
 
 export default function Habits() {
 
@@ -22,7 +22,7 @@ export default function Habits() {
     const [creatingHabit, setCreatingHabit] = useState(false);
     const [newHabit, setNewHabit] = useState({
         name: "",
-        days: []
+        days: null
     })
 
     function newHabitBtn() {
@@ -32,6 +32,7 @@ export default function Habits() {
     const [habits, setHabits] = useState([]);
 
     useEffect(() => {
+        //criar uma func só pra atualizar os dados da lista
         getHabits(loggedUser.token)
             .then((resp) => {
                 setHabits(resp.data)
@@ -42,7 +43,7 @@ export default function Habits() {
 
 
     function selectDay(day, index) {
-    const tmpSelectedDaysWeek = [...selectedDaysWeek];
+        const tmpSelectedDaysWeek = [...selectedDaysWeek];
 
         if (day.isSelected) {
             tmpSelectedDaysWeek[index].isSelected = false;
@@ -51,7 +52,7 @@ export default function Habits() {
         else {
             tmpSelectedDaysWeek[index].isSelected = true;
             setSelectedDaysWeek(tmpSelectedDaysWeek);
-        }      
+        }
         setNewHabit({ ...newHabit, days: (selectedDaysWeek.filter((day) => day.isSelected)).map((dayFiltered, index) => (index)) })
     }
 
@@ -59,17 +60,23 @@ export default function Habits() {
         event.preventDefault();
         if (!selectedDaysWeek.find((day) => day.isSelected))
             return alert("Escolha pelo menos um dia da semana");
-        createNewHabit(loggedUser.token, newHabit).then(()=>{
+        createNewHabit(loggedUser.token, newHabit).then(() => {
+            
+            //criar uma func só pra atualizar os dados da lista
             getHabits(loggedUser.token)
-            .then((resp) => {
-                setHabits(resp.data)
-            })
+                .then((resp) => {
+                    setHabits(resp.data)
+                })               
         })
+        .catch((err)=>{
+            alert("Erro ao salvar hábito")
+            console.log(err.response)
+        });
         setSelectedDaysWeek(defaultWeekDays);
         setCreatingHabit(false);
         setNewHabit({
             name: "",
-            days: []
+            days: null
         })
     }
 
@@ -92,7 +99,7 @@ export default function Habits() {
                     <div>
                         {selectedDaysWeek.map((day, index) => (
                             <DayInput type="button" value={day.value} selected={day.isSelected}
-                                onClick={()=>selectDay(day, index)} />
+                                onClick={() => selectDay(day, index)} />
                         ))}
 
                     </div>
@@ -106,7 +113,7 @@ export default function Habits() {
 
             <HabitsList>
                 {habits.length > 0 ? habits.map((habit) => (
-                    <Habit habit={habit} defaultWeekDays={defaultWeekDays} setHabits={setHabits}/>
+                    <Habit habit={habit} defaultWeekDays={defaultWeekDays} setHabits={setHabits} />
                 )) : <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>}
 
             </HabitsList>

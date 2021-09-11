@@ -15,6 +15,7 @@ export default function Habit({ habit, defaultWeekDays, setHabits }) {
         const confirmed = window.confirm("Tem certeza de que quer deletar este hábito?");
         if (confirmed) {
             deleteHabit(loggedUser.token, habit.id).then(() => {
+                //criar uma func só pra atualizar os dados da lista
                 getHabits(loggedUser.token).then((resp) => {
                     setHabits(resp.data)
                 })
