@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const Screen = styled.div`
+const Form = styled.form`
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -23,7 +23,7 @@ const Redirect = styled.div`
 `
 
 export {
-    Screen,
+    Form,
     Logo,
     Redirect
 } 

@@ -6,15 +6,15 @@ import Today from "../Today/Today";
 import History from "../History/History";
 
 import UserContext from "../../contexts/UserContext";
-import { useContext, useState } from "react";
+import { useState } from "react";
 
 import "../App/App.css";
 
 function App() {
-	const [user, setUser] = useState(null)
+	const [userProfile, setUserProfile] = useState(null)
 	
 	return (
-		<UserContext.Provider value={{user, setUser}}>
+		<UserContext.Provider value={{userProfile, setUserProfile}}>
 			<BrowserRouter>
 				<Switch>
 					<Route path="/" exact>

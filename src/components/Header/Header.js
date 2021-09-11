@@ -1,7 +1,13 @@
 import styled from "styled-components";
 import header_logo from "../../assets/images/header_logo.png";
 
+import UserContext from "../../contexts/UserContext";
+import { useContext } from "react";
+
 export default function Header() {
+
+    const { userProfile } = useContext(UserContext);
+    console.log(userProfile);
     return (
         <Container>
             <img src={header_logo} alt="header-logo"/>
