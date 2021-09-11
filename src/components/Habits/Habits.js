@@ -56,24 +56,29 @@ export default function Habits() {
         setNewHabit({ ...newHabit, days: (selectedDaysWeek.filter((day) => day.isSelected)).map((dayFiltered, index) => (index)) })
     }
 
+    const [isLoading, setLoading] = useState(false);
+
     function createHabit(event) {
         event.preventDefault();
+        setLoading(true);
         if (!selectedDaysWeek.find((day) => day.isSelected))
             return alert("Escolha pelo menos um dia da semana");
-        createNewHabit(loggedUser.token, newHabit).then(() => {
-            
+        createNewHabit(loggedUser.token, newHabit).then(() => {  
+            setLoading(false);
+            setCreatingHabit(false);
+
             //criar uma func só pra atualizar os dados da lista
             getHabits(loggedUser.token)
                 .then((resp) => {
                     setHabits(resp.data)
-                })               
+                })             
         })
         .catch((err)=>{
+            setLoading(false);
             alert("Erro ao salvar hábito")
             console.log(err.response)
         });
         setSelectedDaysWeek(defaultWeekDays);
-        setCreatingHabit(false);
         setNewHabit({
             name: "",
             days: null
@@ -93,19 +98,19 @@ export default function Habits() {
             {creatingHabit ?
                 <Form onSubmit={createHabit}>
 
-                    <Input placeholder="nome do hábito" required
+                    <Input disabled={isLoading} placeholder="nome do hábito" required
                         onChange={(e) => setNewHabit({ ...newHabit, name: e.target.value })}
                     />
                     <div>
                         {selectedDaysWeek.map((day, index) => (
-                            <DayInput type="button" value={day.value} selected={day.isSelected}
+                            <DayInput disabled={isLoading} type="button" value={day.value} selected={day.isSelected}
                                 onClick={() => selectDay(day, index)} />
                         ))}
 
                     </div>
                     <Buttons>
-                        <Button width={84} height={35} type="cancel">Cancelar</Button>
-                        <Button width={84} height={35} type="submit">Salvar</Button>
+                        <Button disabled={isLoading} width={84} height={35} type="cancel">Cancelar</Button>
+                        <Button disabled={isLoading} width={84} height={35} type="submit">Salvar</Button>
                     </Buttons>
 
                 </Form> : ""}
