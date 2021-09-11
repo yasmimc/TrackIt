@@ -106,7 +106,7 @@ export default function Habits() {
 
             <HabitsList>
                 {habits.length > 0 ? habits.map((habit) => (
-                    <Habit habit={habit} defaultWeekDays={defaultWeekDays}/>
+                    <Habit habit={habit} defaultWeekDays={defaultWeekDays} setHabits={setHabits}/>
                 )) : <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>}
 
             </HabitsList>

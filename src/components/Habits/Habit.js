@@ -1,10 +1,33 @@
 import DayInput from "../shared/DayInput";
 import styled from "styled-components";
 
-export default function Habit({ habit,  defaultWeekDays}) {
+import { BsTrash } from "react-icons/bs";
+
+import { deleteHabit, getHabits } from "../../services/trackit";
+import { useContext } from "react";
+import UserContext from "../../contexts/UserContext";
+
+export default function Habit({ habit, defaultWeekDays, setHabits }) {
+
+    const { loggedUser } = useContext(UserContext);
+
+    function deleteThisHabit() {
+        const confirmed = window.confirm("Tem certeza de que quer deletar este hábito?");
+        if (confirmed) {
+            deleteHabit(loggedUser.token, habit.id).then(() => {
+                getHabits(loggedUser.token).then((resp) => {
+                    setHabits(resp.data)
+                })
+            }
+            )}
+    }
+
     return (
         <Container>
-            {habit.name}
+            <HabitName>
+                {habit.name}
+                <BsTrash onClick={deleteThisHabit} />
+            </HabitName>
             <div>
                 {defaultWeekDays.map((day, index) => {
                     return (
@@ -32,4 +55,9 @@ const Container = styled.div`
         margin-right: 4px;
         font-size: 16px;
     }
+`
+
+const HabitName = styled.div`
+    display: flex;
+    justify-content: space-between;
 `

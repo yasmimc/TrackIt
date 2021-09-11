@@ -29,11 +29,22 @@ function createNewHabit(token, habit) {
         }
     }
     const promise = axios.post(`${BASE_URL}/habits`, habit, config);
+    // promise.then((resp)=>(console.log(resp)))
+    return promise;
+}
+
+function deleteHabit(token, habitId) {
+    const config = {
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    }
+    const promise = axios.delete(`${BASE_URL}/habits/${habitId}`, config);
     promise.then((resp)=>(console.log(resp)))
     return promise;
 }
 
 export { 
     signUp, signIn,
-    getHabits, createNewHabit,
+    getHabits, createNewHabit, deleteHabit
 }
