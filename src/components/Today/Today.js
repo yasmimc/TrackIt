@@ -9,10 +9,11 @@ import { useContext, useEffect } from "react";
 
 import { getTodayHabits } from "../../services/trackit";
 import { useState } from "react/cjs/react.development";
+import dayjs from "dayjs";
+import moment from "moment";
 
 export default function Today() {
     const { loggedUser, setLoggedUser } = useContext(UserContext);
-    // console.log(loggedUser)
 
     const [todayHabits, setTodayHabits] = useState([]);
     useEffect(() => {
@@ -24,12 +25,15 @@ export default function Today() {
     }, [])
 
     const [ isDone, setIsDone] = useState (false);
+    
+    dayjs.locale('pt-br');
+    const today = dayjs().locale('pt-br');
 
     return (
         <>
             <Header></Header>
             <Container>
-                <h1>Segunda, 17/05 </h1>
+                <h1>{today.locale('pt-br').format("dddd[, ]DD/MM/YYYY")}</h1>
                 <h2>67% dos hábitos concluídos</h2>
                 <ul>
                     {todayHabits.length > 0 ? todayHabits.map((habit) => (
