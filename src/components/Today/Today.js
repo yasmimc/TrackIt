@@ -8,7 +8,7 @@ import UserContext from "../../contexts/UserContext";
 import HabitsContext from "../../contexts/HabitsContext";
 import { useContext, useEffect } from "react";
 
-import { getTodayHabits, markHabitAsDone } from "../../services/trackit";
+import { getTodayHabits, markHabitAsDone, markHabitAsUndone } from "../../services/trackit";
 import { useState } from "react/cjs/react.development";
 import dayjs from "dayjs";
 import moment from "moment";
@@ -18,24 +18,36 @@ export default function Today() {
 
     const [todayHabits, setTodayHabits] = useState([]);
 
-    const [ percentage, setPercentage ] = useState(0);
+    const [percentage, setPercentage] = useState(0);
 
     useEffect(() => {
         getTodayHabits(loggedUser.token)
             .then((resp) => {
-                console.log(resp)
+                // console.log(resp)
                 setTodayHabits(resp.data)
             })
     }, [])
 
-    const [ isDone, setIsDone] = useState (false);
+    console.log(todayHabits)
+
+    const [isDone, setIsDone] = useState(false);
 
     dayjs.locale('pt-br');
     const today = dayjs().locale('pt-br');
 
-    function markAsDone(habitId){
-        markHabitAsDone(loggedUser.token, habitId);
-        setIsDone(true);
+    function clickHabit(habit, index) {
+        const tmpTodayHabits = [...todayHabits];
+
+        if (!habit.done) {
+            markHabitAsDone(loggedUser.token, habit.id);
+            tmpTodayHabits[index].done = true;
+            setTodayHabits(tmpTodayHabits);
+        } else {
+            markHabitAsUndone(loggedUser.token, habit.id);
+            tmpTodayHabits[index].done = false;
+            setTodayHabits(tmpTodayHabits);
+        }
+
     }
 
     return (
@@ -45,7 +57,7 @@ export default function Today() {
                 <h1>{today.locale('pt-br').format("dddd[, ]DD/MM/YYYY")}</h1>
                 <h2>{percentage ? `${percentage}% dos hábitos concluídos` : "Nenhum hábito concluído ainda"}</h2>
                 <ul>
-                    {todayHabits.length > 0 ? todayHabits.map((habit) => (
+                    {todayHabits.length > 0 ? todayHabits.map((habit, index) => (
                         <TodayHabit isDone={habit.done}>
                             <Description>
                                 <h1>{habit.name}</h1>
@@ -53,17 +65,18 @@ export default function Today() {
                                 <p>Seu recorde: {habit.highestSequence} dias</p>
                             </Description>
                             <CheckButton
-                                onClick={()=>markAsDone(habit.id)}
-                                // type="checkbox"
+                                isDone={habit.done}
+                                onClick={() => clickHabit(habit, index)}
+                            // type="checkbox"
                             >
-                                <FaCheck/>
+                                <FaCheck />
                             </CheckButton>
                         </TodayHabit>
                     )) : "Nenhum hábito pra hoje!"
                     }
                 </ul>
             </Container>
-            <Footer percentage = {percentage} setPercentage = {setPercentage}></Footer>
+            <Footer percentage={percentage} setPercentage={setPercentage}></Footer>
         </HabitsContext.Provider>
     );
 }
@@ -107,7 +120,7 @@ const CheckButton = styled.button`
     height: 69px;
     border: none;
     border-radius: 5px;
-    background-color: ${props=>props.isDone ? "#8FC549" : "#EBEBEB"};
+    background-color: ${props => props.isDone ? "#8FC549" : "#EBEBEB"};
 
     font-size: 35px;
     color: #FFFFFF;

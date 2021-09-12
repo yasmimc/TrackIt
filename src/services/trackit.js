@@ -68,8 +68,20 @@ function markHabitAsDone(token, habitId) {
 	return promise;
 }
 
+function markHabitAsUndone(token, habitId) {
+	// console.log(habitId)
+	const config = {
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    }
+	const promise = axios.post(`${BASE_URL}/habits/${habitId}/uncheck`, "", config);
+	// promise.then((resp)=>console.log(resp))
+	// promise.catch((err)=>console.log(err.response))
+	return promise;
+}
 export { 
 	signUp, signIn,
 	getHabits, createNewHabit, deleteHabit,
-	getTodayHabits, markHabitAsDone
+	getTodayHabits, markHabitAsDone, markHabitAsUndone
 }
