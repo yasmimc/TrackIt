@@ -8,7 +8,7 @@ import UserContext from "../../contexts/UserContext";
 import HabitsContext from "../../contexts/HabitsContext";
 import { useContext, useEffect } from "react";
 
-import { getTodayHabits } from "../../services/trackit";
+import { getTodayHabits, markHabitAsDone } from "../../services/trackit";
 import { useState } from "react/cjs/react.development";
 import dayjs from "dayjs";
 import moment from "moment";
@@ -31,7 +31,12 @@ export default function Today() {
     const [ isDone, setIsDone] = useState (false);
 
     dayjs.locale('pt-br');
-    const today = dayjs().locale('pt-br');    
+    const today = dayjs().locale('pt-br');
+
+    function markAsDone(habitId){
+        markHabitAsDone(loggedUser.token, habitId);
+        setIsDone(true);
+    }
 
     return (
         <HabitsContext.Provider value={percentage} setPercentage={setPercentage}>
@@ -41,20 +46,20 @@ export default function Today() {
                 <h2>{percentage ? `${percentage}% dos hábitos concluídos` : "Nenhum hábito concluído ainda"}</h2>
                 <ul>
                     {todayHabits.length > 0 ? todayHabits.map((habit) => (
-                        <TodayHabit>
+                        <TodayHabit isDone={habit.done}>
                             <Description>
                                 <h1>{habit.name}</h1>
                                 <p>Sequência atual: <Green>{habit.currentSequence} dias</Green></p>
                                 <p>Seu recorde: {habit.highestSequence} dias</p>
                             </Description>
                             <CheckButton
+                                onClick={()=>markAsDone(habit.id)}
                                 // type="checkbox"
                             >
                                 <FaCheck/>
                             </CheckButton>
                         </TodayHabit>
                     )) : "Nenhum hábito pra hoje!"
-
                     }
                 </ul>
             </Container>

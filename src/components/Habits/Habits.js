@@ -25,6 +25,8 @@ export default function Habits() {
         days: null
     })
 
+    // console.log(newHabit)
+
     function newHabitBtn() {
         setCreatingHabit(true)
     }
@@ -35,25 +37,36 @@ export default function Habits() {
         //criar uma func só pra atualizar os dados da lista
         getHabits(loggedUser.token)
             .then((resp) => {
+                // console.log(resp.data)
                 setHabits(resp.data)
             })
     }, []);
 
     const [selectedDaysWeek, setSelectedDaysWeek] = useState(defaultWeekDays);
-
+    // console.log(selectedDaysWeek)
 
     function selectDay(day, index) {
+        // console.log(day, index)
         const tmpSelectedDaysWeek = [...selectedDaysWeek];
 
         if (day.isSelected) {
             tmpSelectedDaysWeek[index].isSelected = false;
+            // console.log(tmpSelectedDaysWeek[index])
+
+
             setSelectedDaysWeek(tmpSelectedDaysWeek);
         }
         else {
             tmpSelectedDaysWeek[index].isSelected = true;
+            // console.log(tmpSelectedDaysWeek[index])
+            
             setSelectedDaysWeek(tmpSelectedDaysWeek);
         }
-        setNewHabit({ ...newHabit, days: (selectedDaysWeek.filter((day) => day.isSelected)).map((dayFiltered, index) => (index)) })
+        const tmpNewHabit = {...newHabit};
+        // console.log(tmpNewHabit.days)
+        tmpNewHabit.days = selectedDaysWeek.filter((day) => day.isSelected).map((dayFilterd)=>dayFilterd.id);
+        
+        setNewHabit(tmpNewHabit);
     }
 
     const [isLoading, setLoading] = useState(false);
@@ -76,7 +89,7 @@ export default function Habits() {
             .catch((err) => {
                 setLoading(false);
                 alert("Erro ao salvar hábito")
-                console.log(err.response)
+                // console.log(err.response)
             });
         setSelectedDaysWeek(defaultWeekDays);
         setNewHabit({

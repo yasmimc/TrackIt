@@ -9,7 +9,9 @@ export default function Footer({percentage, setPercentage}) {
 
     // const { percentage, setPercentage } = useContext(HabitsContext);
 
-    setPercentage(60);
+    // setPercentage(60);
+
+    percentage = 10;
 
     return (
         <Container>
