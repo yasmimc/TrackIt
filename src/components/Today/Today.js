@@ -5,6 +5,7 @@ import Container from "../shared/Container";
 import { FaCheck } from "react-icons/fa"
 
 import UserContext from "../../contexts/UserContext";
+import HabitsContext from "../../contexts/HabitsContext";
 import { useContext, useEffect } from "react";
 
 import { getTodayHabits } from "../../services/trackit";
@@ -16,6 +17,9 @@ export default function Today() {
     const { loggedUser, setLoggedUser } = useContext(UserContext);
 
     const [todayHabits, setTodayHabits] = useState([]);
+
+    const [ percentage, setPercentage ] = useState(0);
+
     useEffect(() => {
         getTodayHabits(loggedUser.token)
             .then((resp) => {
@@ -25,16 +29,16 @@ export default function Today() {
     }, [])
 
     const [ isDone, setIsDone] = useState (false);
-    
+
     dayjs.locale('pt-br');
-    const today = dayjs().locale('pt-br');
+    const today = dayjs().locale('pt-br');    
 
     return (
-        <>
+        <HabitsContext.Provider value={percentage} setPercentage={setPercentage}>
             <Header></Header>
             <Container>
                 <h1>{today.locale('pt-br').format("dddd[, ]DD/MM/YYYY")}</h1>
-                <h2>67% dos hábitos concluídos</h2>
+                <h2>{percentage ? `${percentage}% dos hábitos concluídos` : "Nenhum hábito concluído ainda"}</h2>
                 <ul>
                     {todayHabits.length > 0 ? todayHabits.map((habit) => (
                         <TodayHabit>
@@ -54,8 +58,8 @@ export default function Today() {
                     }
                 </ul>
             </Container>
-            <Footer></Footer>
-        </>
+            <Footer percentage = {percentage} setPercentage = {setPercentage}></Footer>
+        </HabitsContext.Provider>
     );
 }
 
@@ -98,7 +102,7 @@ const CheckButton = styled.button`
     height: 69px;
     border: none;
     border-radius: 5px;
-    background-color: #8FC549;
+    background-color: ${props=>props.isDone ? "#8FC549" : "#EBEBEB"};
 
     font-size: 35px;
     color: #FFFFFF;
@@ -111,6 +115,7 @@ const CheckButton = styled.button`
 
 
         
+
     }
 
     #isexpanded:checked ~ * tr.expandable {
