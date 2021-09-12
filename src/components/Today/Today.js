@@ -2,14 +2,28 @@ import styled from "styled-components";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 import Container from "../shared/Container";
-import { IoCheckmarkOutline } from "react-icons/io5";
+import { FaCheck } from "react-icons/fa"
 
 import UserContext from "../../contexts/UserContext";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
+
+import { getTodayHabits } from "../../services/trackit";
+import { useState } from "react/cjs/react.development";
 
 export default function Today() {
     const { loggedUser, setLoggedUser } = useContext(UserContext);
     // console.log(loggedUser)
+
+    const [todayHabits, setTodayHabits] = useState([]);
+    useEffect(() => {
+        getTodayHabits(loggedUser.token)
+            .then((resp) => {
+                console.log(resp)
+                setTodayHabits(resp.data)
+            })
+    }, [])
+
+    const [ isDone, setIsDone] = useState (false);
 
     return (
         <>
@@ -18,36 +32,22 @@ export default function Today() {
                 <h1>Segunda, 17/05 </h1>
                 <h2>67% dos hábitos concluídos</h2>
                 <ul>
-                    <Habit>
-                        <Description>
-                            <h1>Ler 1 capítulo de livro</h1>
-                            <p>Sequência atual: <Green>4 dias</Green></p>
-                            <p>Seu recorde: 5 dias</p>
-                        </Description>
-                        <CheckButton>
-                            <IoCheckmarkOutline/>
-                        </CheckButton>
-                    </Habit>
-                    <Habit>
-                        <Description>
-                            <h1>Ler 1 capítulo de livro</h1>
-                            <p>Sequência atual: <Green>4 dias</Green></p>
-                            <p>Seu recorde: 5 dias</p>
-                        </Description>
-                        <CheckButton>
-                            <IoCheckmarkOutline/>
-                        </CheckButton>
-                    </Habit>
-                    <Habit>
-                        <Description>
-                            <h1>Ler 1 capítulo de livro</h1>
-                            <p>Sequência atual: <Green>4 dias</Green></p>
-                            <p>Seu recorde: 5 dias</p>
-                        </Description>
-                        <CheckButton>
-                            <IoCheckmarkOutline/>
-                        </CheckButton>
-                    </Habit>
+                    {todayHabits.length > 0 ? todayHabits.map((habit) => (
+                        <TodayHabit>
+                            <Description>
+                                <h1>{habit.name}</h1>
+                                <p>Sequência atual: <Green>{habit.currentSequence} dias</Green></p>
+                                <p>Seu recorde: {habit.highestSequence} dias</p>
+                            </Description>
+                            <CheckButton
+                                // type="checkbox"
+                            >
+                                <FaCheck/>
+                            </CheckButton>
+                        </TodayHabit>
+                    )) : "Nenhum hábito pra hoje!"
+
+                    }
                 </ul>
             </Container>
             <Footer></Footer>
@@ -55,7 +55,7 @@ export default function Today() {
     );
 }
 
-const Habit = styled.li`
+const TodayHabit = styled.li`
     background: #FFFFFF;
     border-radius: 5px;
     width: 100%;
@@ -92,10 +92,25 @@ const Green = styled.span`
 const CheckButton = styled.button`
     width: 69px;
     height: 69px;
-    background-color: #8FC549;
     border: none;
     border-radius: 5px;
+    background-color: #8FC549;
 
     font-size: 35px;
     color: #FFFFFF;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* [type="checkbox"]:checked {
+
+
+        
+    }
+
+    #isexpanded:checked ~ * tr.expandable {
+        background-color: #8FC549;
+    } */
+
 `

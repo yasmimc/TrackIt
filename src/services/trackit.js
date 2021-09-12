@@ -40,11 +40,22 @@ function deleteHabit(token, habitId) {
         }
     }
     const promise = axios.delete(`${BASE_URL}/habits/${habitId}`, config);
-    promise.then((resp)=>(console.log(resp)))
+    // promise.then((resp)=>(console.log(resp)))
+    return promise;
+}
+
+function getTodayHabits(token) {
+    const config = {
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    }
+    const promise = axios.get(`${BASE_URL}/habits/today`, config);
     return promise;
 }
 
 export { 
     signUp, signIn,
-    getHabits, createNewHabit, deleteHabit
+    getHabits, createNewHabit, deleteHabit,
+    getTodayHabits
 }
