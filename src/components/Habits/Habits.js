@@ -63,7 +63,7 @@ export default function Habits() {
         setLoading(true);
         if (!selectedDaysWeek.find((day) => day.isSelected))
             return alert("Escolha pelo menos um dia da semana");
-        createNewHabit(loggedUser.token, newHabit).then(() => {  
+        createNewHabit(loggedUser.token, newHabit).then(() => {
             setLoading(false);
             setCreatingHabit(false);
 
@@ -71,18 +71,23 @@ export default function Habits() {
             getHabits(loggedUser.token)
                 .then((resp) => {
                     setHabits(resp.data)
-                })             
+                })
         })
-        .catch((err)=>{
-            setLoading(false);
-            alert("Erro ao salvar hábito")
-            console.log(err.response)
-        });
+            .catch((err) => {
+                setLoading(false);
+                alert("Erro ao salvar hábito")
+                console.log(err.response)
+            });
         setSelectedDaysWeek(defaultWeekDays);
         setNewHabit({
             name: "",
             days: null
         })
+    }
+
+    function cancel(){
+        setLoading(false);
+        setCreatingHabit(false);
     }
 
     return (
@@ -109,8 +114,20 @@ export default function Habits() {
 
                     </div>
                     <Buttons>
-                        <Button disabled={isLoading} width={84} height={35} type="cancel">Cancelar</Button>
-                        <Button disabled={isLoading} width={84} height={35} type="submit">Salvar</Button>
+                        <Button type="cancel"
+                            disabled={isLoading}
+                            width={84} height={35}
+                            onClick={cancel}>
+
+                            Cancelar
+                        </Button>
+
+                        <Button type="submit"
+                            disabled={isLoading}
+                            width={84} height={35}>
+
+                            Salvar
+                        </Button>
                     </Buttons>
 
                 </Form> : ""}
