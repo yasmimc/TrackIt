@@ -47,7 +47,6 @@ export default function Today() {
             tmpTodayHabits[index].done = false;
             setTodayHabits(tmpTodayHabits);
         }
-
     }
 
     return (
@@ -61,7 +60,7 @@ export default function Today() {
                         <TodayHabit isDone={habit.done}>
                             <Description>
                                 <h1>{habit.name}</h1>
-                                <p>Sequência atual: <Green>{habit.currentSequence} dias</Green></p>
+                                <p>Sequência atual: <CurrentSequence isDone = {habit.done}>{habit.done ? habit.currentSequence + 1 : habit.currentSequence} dias</CurrentSequence></p>
                                 <p>Seu recorde: {habit.highestSequence} dias</p>
                             </Description>
                             <CheckButton
@@ -111,8 +110,8 @@ const TodayHabit = styled.li`
 const Description = styled.div`
 `
 
-const Green = styled.span`
-    color: #8FC549;
+const CurrentSequence = styled.span`
+    color: ${props=>props.isDone ? "#8FC549" : "inherit"};
 `
 
 const CheckButton = styled.button`
