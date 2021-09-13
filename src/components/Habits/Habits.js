@@ -94,11 +94,13 @@ export default function Habits() {
 				alert("Erro ao salvar hábito")
 				// console.log(err.response)
 			});
-		setSelectedDaysWeek(defaultWeekDays);
+
+		setSelectedDaysWeek([...defaultWeekDays]);
 		setNewHabit({
 			name: "",
 			days: null
 		})
+
 	}
 
 	function cancel() {
