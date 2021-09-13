@@ -19,8 +19,9 @@ export default function Today() {
 
 	const [todayHabits, setTodayHabits] = useState([]);
 
+	useEffect(()=>updateTodayHabits(), []);
+
 	useEffect(() => {
-		updateTodayHabits();
 		if (todayHabits.length > 0) {
 			updateHabitCompletionProgress();
 		}		
