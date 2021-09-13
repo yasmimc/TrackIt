@@ -8,6 +8,7 @@ import { useContext } from "react";
 export default function Footer() {
 
 	const { habitCompletionProgress } = useContext(HabitsContext);
+	console.log(habitCompletionProgress)
 
 	return (
 		<Container>

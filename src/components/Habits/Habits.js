@@ -12,10 +12,9 @@ import NewHabitForm from "./NewHabitForm";
 
 import Container from "../shared/Container";
 import Button from "../shared/Button";
-import { useHistory } from "react-router";
 
 export default function Habits() {
-	const { loggedUser } = useContext(UserContext);	
+	const { loggedUser } = useContext(UserContext);
 
 	const [creatingHabit, setCreatingHabit] = useState(false);
 
@@ -26,25 +25,23 @@ export default function Habits() {
 	const [habits, setHabits] = useState([]);
 
 	useEffect(() => {
-		if(loggedUser){
-		updateHabits();
+		if (loggedUser) {
+			updateHabits();
 		}
 
 	}, []);
 
 	function updateHabits() {
-		
-			getHabits(loggedUser.token)
+		getHabits(loggedUser.token)
 			.then((resp) => {
 				setHabits(resp.data)
 			})
 			.catch(() => updateHabits());
 	}
-	
 
 	return (
 		<Container>
-			<Header></Header>
+			<Header/>
 			<Title>
 				<h1>Meus hábitos</h1>
 				<Button width={40} height={35} onClick={newHabitBtn}>
@@ -66,7 +63,7 @@ export default function Habits() {
 
 			</HabitsList>
 
-			<Footer></Footer>
+			<Footer/>
 		</Container>
 	);
 }

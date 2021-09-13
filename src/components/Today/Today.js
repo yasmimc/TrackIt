@@ -15,18 +15,17 @@ import dayjs from "dayjs";
 export default function Today() {
 	const { loggedUser } = useContext(UserContext);
 
-	const { habitCompletionProgress, setHabitCompletionProgress } = useContext(HabitsContext);
+	const [habitCompletionProgress, setHabitCompletionProgress] = useState(0);
 
 	const [todayHabits, setTodayHabits] = useState([]);
 
 	useEffect(() => {
 		updateTodayHabits();
-		
-	}, []);
-
-	if (todayHabits.length > 0) {
-		updateHabitCompletionProgress();
-	}
+		if (todayHabits.length > 0) {
+			updateHabitCompletionProgress();
+		}		
+	}, [todayHabits]);
+	
 	function updateTodayHabits() {
 		getTodayHabits(loggedUser.token)
 			.then((resp) => {
@@ -36,7 +35,6 @@ export default function Today() {
 
 	function updateHabitCompletionProgress() {
 		const todayHabitsDone = todayHabits.filter(habit => habit.done);
-		console.log(todayHabitsDone);
 		setHabitCompletionProgress((todayHabitsDone.length / todayHabits.length * 100).toFixed(0));
 	}
 
@@ -71,8 +69,8 @@ export default function Today() {
 	}
 
 	return (
-		<>
-			<Header></Header>
+		<HabitsContext.Provider value={{ habitCompletionProgress, setHabitCompletionProgress }}>
+			<Header/>
 			<Container>
 				<h1>{getToday().locale('pt-br').format("dddd[, ]DD/MM")}</h1>
 				<h2>{habitCompletionProgress ? `${habitCompletionProgress}% dos hábitos concluídos` : "Nenhum hábito concluído ainda"}</h2>
@@ -101,8 +99,8 @@ export default function Today() {
 					}
 				</ul>
 			</Container>
-			<Footer ></Footer>
-		</>
+			<Footer/>
+		</HabitsContext.Provider>
 	);
 }
 
@@ -137,9 +135,8 @@ const Description = styled.div`
 const CurrentSequence = styled.span`
 	color: ${props => props.isDone ? "#8FC549" : "inherit"};
 `
-
 const HighestSequence = styled.span`
-	color: ${props => props.brokeRecorde ? "#8FC549" : "inherit"}
+	color: ${props => props.brokeRecorde ? "#8FC549" : "inherit"};
 `
 const CheckButton = styled.button`
 	width: 69px;

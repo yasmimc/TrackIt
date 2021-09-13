@@ -1,5 +1,9 @@
 import React, { useContext, useState } from 'react';
 import UserContext from '../../contexts/UserContext';
+import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
+
+import { signIn } from "../../services/trackit";
 
 import logo from "../../assets/images/logo.jpg"
 import {
@@ -9,12 +13,9 @@ import {
 } from "../shared/LoginForms";
 import Input from "../shared/Input";
 import Button from '../shared/Button';
+
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Loader from "react-loader-spinner";
-
-import { signIn } from "../../services/trackit";
-import { useHistory } from 'react-router';
-import { Link } from 'react-router-dom';
 
 export default function Login() {
     const [user, setUser] = useState(null);
@@ -33,7 +34,6 @@ export default function Login() {
                     image: resp.data.image,
                     token: resp.data.token
                 })
-                // console.log(loggedUser)
                 setLoading(false)
                 history.push("/hoje");
             })

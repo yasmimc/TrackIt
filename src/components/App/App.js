@@ -6,14 +6,12 @@ import Today from "../Today/Today";
 import History from "../History/History";
 
 import UserContext from "../../contexts/UserContext";
-import HabitsContext from "../../contexts/HabitsContext";
 import { useState } from "react";
 
 import "../App/App.css";
 
 function App() {
 	const [loggedUser, setLoggedUser] = useState(null);
-	const [habitCompletionProgress, setHabitCompletionProgress] = useState(0);
 
 	return (
 		<UserContext.Provider value={{ loggedUser, setLoggedUser }}>
@@ -25,17 +23,15 @@ function App() {
 					<Route path="/cadastro" exact>
 						<Register></Register>
 					</Route>
-					<HabitsContext.Provider value={{ habitCompletionProgress, setHabitCompletionProgress }}>
-						<Route path="/habitos" exact>
-							<Habits></Habits>
-						</Route>
-						<Route path="/hoje" exact>
-							<Today></Today>
-						</Route>
-						<Route path="/historico" exact>
-							<History></History>
-						</Route>
-					</HabitsContext.Provider>
+					<Route path="/habitos" exact>
+						<Habits></Habits>
+					</Route>
+					<Route path="/hoje" exact>
+						<Today></Today>
+					</Route>
+					<Route path="/historico" exact>
+						<History></History>
+					</Route>
 				</Switch>
 			</BrowserRouter>
 		</UserContext.Provider>
