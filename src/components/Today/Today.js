@@ -11,12 +11,13 @@ import { useContext, useEffect } from "react";
 import { getTodayHabits, markHabitAsDone, markHabitAsUndone } from "../../services/trackit";
 import { useState } from "react/cjs/react.development";
 import dayjs from "dayjs";
-import moment from "moment";
 
 export default function Today() {
-    const { loggedUser, setLoggedUser } = useContext(UserContext);
+    const { loggedUser } = useContext(UserContext);
 
     const [todayHabits, setTodayHabits] = useState([]);
+
+	const [ habitsDone, setHabitsDone] = useState([]);
 
     const [percentage, setPercentage] = useState(0);
 
@@ -28,9 +29,12 @@ export default function Today() {
             })
     }, [])
 
-    console.log(todayHabits)
-
-    const [isDone, setIsDone] = useState(false);
+	useEffect(()=>{
+		if(todayHabits.length>0) {
+			const todayHabitsDone = todayHabits.filter(habit=>habit.done);
+			setPercentage((todayHabitsDone.length/todayHabits.length*100).toFixed(0));
+		}
+	}, [percentage]);
 
     require("dayjs/locale/pt-br")
     const today = dayjs().locale('pt-br');
@@ -50,10 +54,10 @@ export default function Today() {
     }
 
     return (
-        <HabitsContext.Provider value={percentage} setPercentage={setPercentage}>
+        <HabitsContext.Provider value={{percentage, setPercentage}}>
             <Header></Header>
             <Container>
-                <h1>{today.locale('pt-br').format("dddd[, ]DD/MM/YYYY")}</h1>
+                <h1>{today.locale('pt-br').format("dddd[, ]DD/MM")}</h1>
                 <h2>{percentage ? `${percentage}% dos hábitos concluídos` : "Nenhum hábito concluído ainda"}</h2>
                 <ul>
                     {todayHabits.length > 0 ? todayHabits.map((habit, index) => (

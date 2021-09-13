@@ -5,13 +5,13 @@ import 'react-circular-progressbar/dist/styles.css';
 import HabitsContext from "../../contexts/HabitsContext";
 import { useContext } from "react";
 
-export default function Footer({percentage, setPercentage}) {
+export default function Footer() {
 
-    // const { percentage, setPercentage } = useContext(HabitsContext);
+    const { percentage, setPercentage } = useContext(HabitsContext);
 
-    // setPercentage(60);
+    setPercentage(60);
 
-    percentage = 10;
+    // percentage = 10;
 
     return (
         <Container>
