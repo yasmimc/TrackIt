@@ -17,7 +17,7 @@ export default function Today() {
 
     const [todayHabits, setTodayHabits] = useState([]);
 
-    const [percentage, setPercentage] = useState(0);
+    const {percentage, setPercentage} = useContext(HabitsContext);
 
     useEffect(() => {
         //trecho q se repete 3x, refatorar
@@ -74,7 +74,7 @@ export default function Today() {
     }
 
     return (
-        <HabitsContext.Provider value={{ percentage, setPercentage }}>
+        <>
             <Header></Header>
             <Container>
                 <h1>{today.locale('pt-br').format("dddd[, ]DD/MM")}</h1>
@@ -100,7 +100,7 @@ export default function Today() {
                 </ul>
             </Container>
             <Footer ></Footer>
-        </HabitsContext.Provider>
+        </>
     );
 }
 
