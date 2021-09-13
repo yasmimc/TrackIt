@@ -32,7 +32,7 @@ export default function Today() {
 
     const [isDone, setIsDone] = useState(false);
 
-    dayjs.locale('pt-br');
+    require("dayjs/locale/pt-br")
     const today = dayjs().locale('pt-br');
 
     function clickHabit(habit, index) {
@@ -61,7 +61,7 @@ export default function Today() {
                             <Description>
                                 <h1>{habit.name}</h1>
                                 <p>Sequência atual: <CurrentSequence isDone = {habit.done}>{habit.done ? habit.currentSequence + 1 : habit.currentSequence} dias</CurrentSequence></p>
-                                <p>Seu recorde: {habit.highestSequence} dias</p>
+                                <p>Seu recorde: <HighestSequence brokeRecorde={habit.currentSequence >= habit.highestSequence ? true : false  } >{habit.highestSequence <= habit.currentSequence && habit.done ? habit.currentSequence + 1 : habit.highestSequence}</HighestSequence> dias</p>
                             </Description>
                             <CheckButton
                                 isDone={habit.done}
@@ -112,6 +112,9 @@ const Description = styled.div`
 
 const CurrentSequence = styled.span`
     color: ${props=>props.isDone ? "#8FC549" : "inherit"};
+`
+const HighestSequence = styled.span`
+    color: ${props=>props.brokeRecorde ? "#8FC549" : "inherit"}
 `
 
 const CheckButton = styled.button`
