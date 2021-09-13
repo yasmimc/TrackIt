@@ -32,19 +32,22 @@ export default function Habits() {
 	}
 
 	const [habits, setHabits] = useState([]);
-	console.log(habits)
+	// console.log(habits)
 
 	useEffect(() => {
-		//criar uma func só pra atualizar os dados da lista
+		updateHabits();
+	}, []);
+
+	const [selectedDaysWeek, setSelectedDaysWeek] = useState(defaultWeekDays);
+	// console.log(selectedDaysWeek)
+
+	function updateHabits(){
 		getHabits(loggedUser.token)
 			.then((resp) => {
 				// console.log(resp.data)
 				setHabits(resp.data)
 			})
-	}, []);
-
-	const [selectedDaysWeek, setSelectedDaysWeek] = useState(defaultWeekDays);
-	// console.log(selectedDaysWeek)
+	}
 
 	function selectDay(day, index) {
 		// console.log(day, index)
@@ -82,12 +85,7 @@ export default function Habits() {
 			.then(() => {
 				setLoading(false);
 				setCreatingHabit(false);
-
-				//criar uma func só pra atualizar os dados da lista
-				getHabits(loggedUser.token)
-					.then((resp) => {
-						setHabits(resp.data)
-					})
+				updateHabits();
 			})
 			.catch((err) => {
 				setLoading(false);
@@ -99,8 +97,7 @@ export default function Habits() {
 		setNewHabit({
 			name: "",
 			days: null
-		})
-
+		});
 	}
 
 	function cancel() {

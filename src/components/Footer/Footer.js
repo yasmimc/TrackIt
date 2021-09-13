@@ -7,11 +7,7 @@ import { useContext } from "react";
 
 export default function Footer() {
 
-    const {percentage, setPercentage} = useContext(HabitsContext);
-
-    console.log(percentage)
-
-    // setPercentage(percentage);
+    const {habitCompletionProgress} = useContext(HabitsContext);
 
     return (
         <Container>
@@ -25,7 +21,7 @@ export default function Footer() {
                 <Today>
                     <Link to="/hoje">
                         <CircularProgressbar 
-                            value={percentage}
+                            value={habitCompletionProgress}
                             text="Hoje"
                             styles={buildStyles({
                                 textColor: '#FFFFFF',

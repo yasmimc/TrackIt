@@ -17,23 +17,27 @@ export default function Today() {
 
     const [todayHabits, setTodayHabits] = useState([]);
 
-    const {percentage, setPercentage} = useContext(HabitsContext);
+    const {habitCompletionProgress, setHabitCompletionProgress} = useContext(HabitsContext);
 
     useEffect(() => {
         //trecho q se repete 3x, refatorar
-        getTodayHabits(loggedUser.token)
-            .then((resp) => {
-                // console.log(resp)
-                setTodayHabits(resp.data)
-            })
+        updateTodayHabits();
     }, [])
 
     useEffect(() => {
         if (todayHabits.length > 0) {
             const todayHabitsDone = todayHabits.filter(habit => habit.done);
-            setPercentage((todayHabitsDone.length / todayHabits.length * 100).toFixed(0));
+            setHabitCompletionProgress((todayHabitsDone.length / todayHabits.length * 100).toFixed(0));
         }
     },);
+
+    function updateTodayHabits(){
+        getTodayHabits(loggedUser.token)
+        .then((resp) => {
+            // console.log(resp)
+            setTodayHabits(resp.data)
+        })
+    }
 
     require("dayjs/locale/pt-br")
     const today = dayjs().locale('pt-br');
@@ -43,33 +47,21 @@ export default function Today() {
 
         if (!habit.done) {
             markHabitAsDone(loggedUser.token, habit.id)
-                .then(() => {
-                    getTodayHabits(loggedUser.token)
-                        .then((resp) => {
-                            // console.log(resp)
-                            setTodayHabits(resp.data)
-                        })
-                })
+                .then(() => updateTodayHabits())
+                .catch(()=> updateTodayHabits());
             tmpTodayHabits[index].done = true;
             setTodayHabits(tmpTodayHabits);
         } else {
             markHabitAsUndone(loggedUser.token, habit.id)
-                .then(() => {
-                    getTodayHabits(loggedUser.token)
-                        .then((resp) => {
-                            // console.log(resp)
-                            setTodayHabits(resp.data)
-                        })
-                })
+                .then(() => updateTodayHabits())
+                .catch(()=> updateTodayHabits());
             tmpTodayHabits[index].done = false;
             setTodayHabits(tmpTodayHabits);
         }
 
-
-
         if (tmpTodayHabits.length > 0) {
             const todayHabitsDone = tmpTodayHabits.filter(habit => habit.done);
-            setPercentage((todayHabitsDone.length / todayHabits.length * 100).toFixed(0));
+            setHabitCompletionProgress((todayHabitsDone.length / todayHabits.length * 100).toFixed(0));
         }
     }
 
@@ -78,7 +70,7 @@ export default function Today() {
             <Header></Header>
             <Container>
                 <h1>{today.locale('pt-br').format("dddd[, ]DD/MM")}</h1>
-                <h2>{percentage ? `${percentage}% dos hábitos concluídos` : "Nenhum hábito concluído ainda"}</h2>
+                <h2>{habitCompletionProgress ? `${habitCompletionProgress}% dos hábitos concluídos` : "Nenhum hábito concluído ainda"}</h2>
                 <ul>
                     {todayHabits.length > 0 ? todayHabits.map((habit, index) => (
                         <TodayHabit isDone={habit.done}>

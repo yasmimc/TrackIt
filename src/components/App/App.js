@@ -14,7 +14,7 @@ import "../App/App.css";
 function App() {
 	const [loggedUser, setLoggedUser] = useState(null);
 
-    const [percentage, setPercentage] = useState(0);
+    const [habitCompletionProgress, setHabitCompletionProgress] = useState(0);
 
 	
 	return (
@@ -27,7 +27,7 @@ function App() {
 					<Route path="/cadastro" exact>
 						<Register></Register>
 					</Route>
-					<HabitsContext.Provider value={{ percentage, setPercentage }}>
+					<HabitsContext.Provider value={{ habitCompletionProgress, setHabitCompletionProgress }}>
 					<Route path="/habitos" exact>
 						<Habits></Habits>
 					</Route>
