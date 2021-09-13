@@ -17,8 +17,6 @@ export default function Today() {
 
     const [todayHabits, setTodayHabits] = useState([]);
 
-	const [ habitsDone, setHabitsDone] = useState([]);
-
     const [percentage, setPercentage] = useState(0);
 
     useEffect(() => {
@@ -79,7 +77,7 @@ export default function Today() {
                     }
                 </ul>
             </Container>
-            <Footer percentage={percentage} setPercentage={setPercentage}></Footer>
+            <Footer ></Footer>
         </HabitsContext.Provider>
     );
 }
