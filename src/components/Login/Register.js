@@ -28,15 +28,22 @@ export default function Register() {
         signUp(user)
             .then((resp) => {
                 setLoading(false);
-                // console.log(resp)
                 history.push("/");
             })
             .catch((err) => {
                 setLoading(false);
-                // console.log(err.response)
                 if (err.response.status === 409)
                     return alert("Usuário já cadastrado");
-                alert("Erro: por favor, verifique se seus dados de resgistro estão corretos.")
+                if(err.response.status === 422){                    
+                    err.response.data.details.forEach(errMsg => {
+                        if(errMsg === '"email" must be a valid email')
+                            return alert ("Por favor, nsira um email válido!");
+                        if(errMsg === '"image" must be a valid uri')
+                            return alert ("Por favor, insira uma uri válida!")
+                    });
+                }
+                else
+                    alert("Erro: por favor, verifique se seus dados de resgistro estão corretos.")
             })
     }
 

@@ -33,14 +33,17 @@ export default function Login() {
                     image: resp.data.image,
                     token: resp.data.token
                 })
-                // (loggedUser)
                 setLoading(false)
                 history.push("/hoje");
             })
             .catch((err) => {
-                // console.log(err.response)
                 setLoading(false)
-                alert("Erro: por favor, verifique se seu email e senha estão corretos.")
+                if(err.response.status === 401)
+                    return alert(err.response.data.message);
+                if(err.response.status === 422)
+                    return alert("Por favor, insira um email válido!");
+                else
+                    alert("Erro: por favor, verifique se seu email e senha estão corretos.")
             })
     }
     return (
