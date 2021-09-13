@@ -7,9 +7,11 @@ import { useContext } from "react";
 
 export default function Footer() {
 
-    const { percentage, setPercentage } = useContext(HabitsContext);
+    const {percentage, setPercentage} = useContext(HabitsContext);
 
-    setPercentage(0);
+    console.log(percentage)
+
+    // setPercentage(percentage);
 
     return (
         <Container>

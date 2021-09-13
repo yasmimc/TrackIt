@@ -157,7 +157,7 @@ export default function Habits() {
 			</HabitsList>
 
 
-			{/* <Footer></Footer> */}
+			<Footer></Footer>
 		</Container>
 	);
 }

@@ -20,6 +20,7 @@ export default function Today() {
     const [percentage, setPercentage] = useState(0);
 
     useEffect(() => {
+        //trecho q se repete 3x, refatorar
         getTodayHabits(loggedUser.token)
             .then((resp) => {
                 // console.log(resp)
@@ -27,12 +28,12 @@ export default function Today() {
             })
     }, [])
 
-	useEffect(()=>{
-		if(todayHabits.length>0) {
-			const todayHabitsDone = todayHabits.filter(habit=>habit.done);
-			setPercentage((todayHabitsDone.length/todayHabits.length*100).toFixed(0));
-		}
-	}, [percentage]);
+    useEffect(() => {
+        if (todayHabits.length > 0) {
+            const todayHabitsDone = todayHabits.filter(habit => habit.done);
+            setPercentage((todayHabitsDone.length / todayHabits.length * 100).toFixed(0));
+        }
+    },);
 
     require("dayjs/locale/pt-br")
     const today = dayjs().locale('pt-br');
@@ -41,18 +42,39 @@ export default function Today() {
         const tmpTodayHabits = [...todayHabits];
 
         if (!habit.done) {
-            markHabitAsDone(loggedUser.token, habit.id);
+            markHabitAsDone(loggedUser.token, habit.id)
+                .then(() => {
+                    getTodayHabits(loggedUser.token)
+                        .then((resp) => {
+                            // console.log(resp)
+                            setTodayHabits(resp.data)
+                        })
+                })
             tmpTodayHabits[index].done = true;
             setTodayHabits(tmpTodayHabits);
         } else {
-            markHabitAsUndone(loggedUser.token, habit.id);
+            markHabitAsUndone(loggedUser.token, habit.id)
+                .then(() => {
+                    getTodayHabits(loggedUser.token)
+                        .then((resp) => {
+                            // console.log(resp)
+                            setTodayHabits(resp.data)
+                        })
+                })
             tmpTodayHabits[index].done = false;
             setTodayHabits(tmpTodayHabits);
+        }
+
+
+
+        if (tmpTodayHabits.length > 0) {
+            const todayHabitsDone = tmpTodayHabits.filter(habit => habit.done);
+            setPercentage((todayHabitsDone.length / todayHabits.length * 100).toFixed(0));
         }
     }
 
     return (
-        <HabitsContext.Provider value={{percentage, setPercentage}}>
+        <HabitsContext.Provider value={{ percentage, setPercentage }}>
             <Header></Header>
             <Container>
                 <h1>{today.locale('pt-br').format("dddd[, ]DD/MM")}</h1>
@@ -62,8 +84,8 @@ export default function Today() {
                         <TodayHabit isDone={habit.done}>
                             <Description>
                                 <h1>{habit.name}</h1>
-                                <p>Sequência atual: <CurrentSequence isDone = {habit.done}>{habit.done ? habit.currentSequence + 1 : habit.currentSequence} dias</CurrentSequence></p>
-                                <p>Seu recorde: <HighestSequence brokeRecorde={habit.currentSequence >= habit.highestSequence ? true : false  } >{habit.highestSequence <= habit.currentSequence && habit.done ? habit.currentSequence + 1 : habit.highestSequence}</HighestSequence> dias</p>
+                                <p>Sequência atual: <CurrentSequence isDone={habit.done}>{habit.done ? habit.currentSequence + 1 : habit.currentSequence} dias</CurrentSequence></p>
+                                <p>Seu recorde: <HighestSequence brokeRecorde={habit.currentSequence >= habit.highestSequence ? true : false} >{habit.highestSequence <= habit.currentSequence && habit.done ? habit.currentSequence + 1 : habit.highestSequence}</HighestSequence> dias</p>
                             </Description>
                             <CheckButton
                                 isDone={habit.done}
@@ -113,10 +135,10 @@ const Description = styled.div`
 `
 
 const CurrentSequence = styled.span`
-    color: ${props=>props.isDone ? "#8FC549" : "inherit"};
+    color: ${props => props.isDone ? "#8FC549" : "inherit"};
 `
 const HighestSequence = styled.span`
-    color: ${props=>props.brokeRecorde ? "#8FC549" : "inherit"}
+    color: ${props => props.brokeRecorde ? "#8FC549" : "inherit"}
 `
 
 const CheckButton = styled.button`
