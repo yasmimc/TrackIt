@@ -28,7 +28,6 @@ export default function Login() {
         setLoading(true)
         signIn(user)
             .then((resp) => {
-                // console.log(resp.data)
                 setLoggedUser({
                     name: resp.data.name,
                     image: resp.data.image,

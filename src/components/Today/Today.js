@@ -20,12 +20,13 @@ export default function Today() {
 	const [todayHabits, setTodayHabits] = useState([]);
 
 	useEffect(() => {
-		updateTodayHabits()
-		if (todayHabits.length > 0) {
-			updateHabitCompletionProgress();
-		}
+		updateTodayHabits();
+		
 	}, []);
 
+	if (todayHabits.length > 0) {
+		updateHabitCompletionProgress();
+	}
 	function updateTodayHabits() {
 		getTodayHabits(loggedUser.token)
 			.then((resp) => {
@@ -35,6 +36,7 @@ export default function Today() {
 
 	function updateHabitCompletionProgress() {
 		const todayHabitsDone = todayHabits.filter(habit => habit.done);
+		console.log(todayHabitsDone);
 		setHabitCompletionProgress((todayHabitsDone.length / todayHabits.length * 100).toFixed(0));
 	}
 
@@ -60,7 +62,6 @@ export default function Today() {
 			tmpTodayHabits[index].done = false;
 			setTodayHabits(tmpTodayHabits);
 		}
-		updateHabitCompletionProgress();
 	}
 
 	function wasRecordeBroked(habit) {
@@ -80,11 +81,11 @@ export default function Today() {
 						<TodayHabit isDone={habit.done}>
 							<Description>
 								<h1>{habit.name}</h1>
-								<p>Sequência atual:
+								<p>{"Sequência atual: "}
 									<CurrentSequence isDone={habit.done}>
 										{habit.currentSequence} dias
 									</CurrentSequence></p>
-								<p>Seu recorde:
+								<p>{"Seu recorde: "}
 									<HighestSequence brokeRecorde={() => wasRecordeBroked(habit)}>
 										{habit.highestSequence}
 									</HighestSequence> dias</p>
