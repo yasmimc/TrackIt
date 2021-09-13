@@ -6,6 +6,9 @@ import { useState } from "react";
 
 import { createNewHabit } from "../../services/trackit";
 
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import Loader from "react-loader-spinner";
+
 function useDefaultWeekDays() {
 	return ([
 		{
@@ -57,7 +60,6 @@ export default function NewHabitForm({ loggedUser, creatingHabit, setCreatingHab
 	});
 
 	const [selectedDaysWeek, setSelectedDaysWeek] = useState(defaultWeekDays);
-	console.log(selectedDaysWeek)
 	const [isLoading, setLoading] = useState(false);
 
 	function selectDay(day, index) {
@@ -128,8 +130,16 @@ export default function NewHabitForm({ loggedUser, creatingHabit, setCreatingHab
 
 					<Button type="submit" disabled={isLoading}
 						width={84} height={35}>
-						Salvar
+						{isLoading ?
+							<Loader
+								type="ThreeDots"
+								color="#FFFFFF"
+								width={35}
+								height={35}
+								timeout={3000}
+							/> : "Salvar"}
 					</Button>
+
 				</Buttons>
 			</Form> : ""}
 		</>
