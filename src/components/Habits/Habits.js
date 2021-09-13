@@ -16,7 +16,7 @@ import Button from "../shared/Button";
 export default function Habits() {
 
 	const { loggedUser } = useContext(UserContext);
-	
+
 
 	const [creatingHabit, setCreatingHabit] = useState(false);
 
@@ -52,9 +52,9 @@ export default function Habits() {
 
 			{creatingHabit ?
 				<NewHabitForm
+					loggedUser={loggedUser}
 					setCreatingHabit={setCreatingHabit}
 					updateHabits={updateHabits}
-					loggedUser={loggedUser}
 				/>
 				: ""}
 

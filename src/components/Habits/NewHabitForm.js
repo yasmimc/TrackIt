@@ -7,9 +7,9 @@ import { useState } from "react";
 import { defaultWeekDays } from "../../services/habits";
 import { createNewHabit } from "../../services/trackit";
 
-export default function NewHabitForm({ setCreatingHabit, loggedUser, updateHabits }) {
+export default function NewHabitForm({ loggedUser, setCreatingHabit, updateHabits }) {
 	const daysWeek = defaultWeekDays;
-	
+
 	const [selectedDaysWeek, setSelectedDaysWeek] = useState(defaultWeekDays);
 	const [isLoading, setLoading] = useState(false);
 	const [newHabit, setNewHabit] = useState({
@@ -46,7 +46,7 @@ export default function NewHabitForm({ setCreatingHabit, loggedUser, updateHabit
 				setCreatingHabit(false);
 				updateHabits();
 			})
-			.catch((err) => {
+			.catch(() => {
 				setLoading(false);
 				alert("Erro ao salvar hábito");
 			});
@@ -65,12 +65,14 @@ export default function NewHabitForm({ setCreatingHabit, loggedUser, updateHabit
 
 	return (
 		<Form onSubmit={createHabit}>
-			<Input disabled={isLoading} placeholder="nome do hábito" required value={newHabit.name}
+			<Input disabled={isLoading} required
+				placeholder="nome do hábito" value={newHabit.name}
 				onChange={(e) => setNewHabit({ ...newHabit, name: e.target.value })}
 			/>
 			<div>
 				{daysWeek.map((day, index) => (
-					<DayInput disabled={isLoading} type="button" value={day.value} selected={day.isSelected}
+					<DayInput disabled={isLoading} type="button"
+						value={day.value} selected={day.isSelected}
 						onClick={() => selectDay(day, index)} />
 				))}
 			</div>

@@ -66,6 +66,12 @@ export default function Today() {
 		updateHabitCompletionProgress();
 	}
 
+	function wasRecordeBroked(habit) {
+		if (habit.currentSequence >= habit.highestSequence && habit.highestSequence !== 0)
+			return true
+		return false
+	}
+
 	return (
 		<>
 			<Header></Header>
@@ -77,13 +83,18 @@ export default function Today() {
 						<TodayHabit isDone={habit.done}>
 							<Description>
 								<h1>{habit.name}</h1>
-								<p>Sequência atual: <CurrentSequence isDone={habit.done}>{habit.currentSequence} dias</CurrentSequence></p>
-								<p>Seu recorde: <HighestSequence brokeRecorde={habit.currentSequence >= habit.highestSequence && habit.highestSequence !== 0 ? true : false} >{habit.highestSequence}</HighestSequence> dias</p>
+								<p>Sequência atual:
+									<CurrentSequence isDone={habit.done}>
+										{habit.currentSequence} dias
+									</CurrentSequence></p>
+								<p>Seu recorde:
+									<HighestSequence brokeRecorde={() => wasRecordeBroked(habit)}>
+										{habit.highestSequence}
+									</HighestSequence> dias</p>
 							</Description>
 							<CheckButton
 								isDone={habit.done}
 								onClick={() => clickHabit(habit, index)}
-							// type="checkbox"
 							>
 								<FaCheck />
 							</CheckButton>
