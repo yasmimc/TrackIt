@@ -17,9 +17,8 @@ export default function Habits() {
 
 	const { loggedUser } = useContext(UserContext);
 
-
+	
 	const [creatingHabit, setCreatingHabit] = useState(false);
-
 
 	function newHabitBtn() {
 		setCreatingHabit(true)
@@ -50,13 +49,12 @@ export default function Habits() {
 				</Button>
 			</Title>
 
-			{creatingHabit ?
-				<NewHabitForm
-					loggedUser={loggedUser}
-					setCreatingHabit={setCreatingHabit}
-					updateHabits={updateHabits}
-				/>
-				: ""}
+			<NewHabitForm
+				creatingHabit={creatingHabit}
+				loggedUser={loggedUser}
+				setCreatingHabit={setCreatingHabit}
+				updateHabits={updateHabits}
+			/>
 
 			<HabitsList>
 				{habits.length > 0 ? habits.map((habit) => (
