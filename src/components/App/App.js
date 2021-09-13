@@ -13,12 +13,10 @@ import "../App/App.css";
 
 function App() {
 	const [loggedUser, setLoggedUser] = useState(null);
+	const [habitCompletionProgress, setHabitCompletionProgress] = useState(0);
 
-    const [habitCompletionProgress, setHabitCompletionProgress] = useState(0);
-
-	
 	return (
-		<UserContext.Provider value={{loggedUser, setLoggedUser}}>
+		<UserContext.Provider value={{ loggedUser, setLoggedUser }}>
 			<BrowserRouter>
 				<Switch>
 					<Route path="/" exact>
@@ -28,15 +26,15 @@ function App() {
 						<Register></Register>
 					</Route>
 					<HabitsContext.Provider value={{ habitCompletionProgress, setHabitCompletionProgress }}>
-					<Route path="/habitos" exact>
-						<Habits></Habits>
-					</Route>
-					<Route path="/hoje" exact>
-						<Today></Today>
-					</Route>
-					<Route path="/historico" exact>
-						<History></History>
-					</Route>
+						<Route path="/habitos" exact>
+							<Habits></Habits>
+						</Route>
+						<Route path="/hoje" exact>
+							<Today></Today>
+						</Route>
+						<Route path="/historico" exact>
+							<History></History>
+						</Route>
 					</HabitsContext.Provider>
 				</Switch>
 			</BrowserRouter>

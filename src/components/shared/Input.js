@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const Input = styled.input`
 
-    width: 303px;
+    max-width: 303px;
     height: 45px;
     font-size: 20px;
     margin-bottom: 6px;
