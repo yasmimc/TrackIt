@@ -3,25 +3,19 @@ import styled from "styled-components";
 
 import { BsTrash } from "react-icons/bs";
 
-import { deleteHabit, getHabits } from "../../services/trackit";
+import { deleteHabit } from "../../services/trackit";
 import { useContext } from "react";
 import UserContext from "../../contexts/UserContext";
 
-export default function Habit({ habit, defaultWeekDays, setHabits }) {
+export default function Habit({ habit, defaultWeekDays, updateHabits }) {
 
 	const { loggedUser } = useContext(UserContext);
 
 	function deleteThisHabit() {
 		const confirmed = window.confirm("Tem certeza de que quer deletar este hábito?");
-		if (confirmed) {
-			deleteHabit(loggedUser.token, habit.id).then(() => {
-				//criar uma func só pra atualizar os dados da lista
-				getHabits(loggedUser.token).then((resp) => {
-					setHabits(resp.data)
-				})
-			}
-			)
-		}
+		if (confirmed) 
+			deleteHabit(loggedUser.token, habit.id)
+				.then(() => updateHabits());
 	}
 
 	return (

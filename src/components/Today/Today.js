@@ -6,7 +6,7 @@ import { FaCheck } from "react-icons/fa"
 
 import UserContext from "../../contexts/UserContext";
 import HabitsContext from "../../contexts/HabitsContext";
-import { useContext, useEffect} from "react";
+import { useContext, useEffect } from "react";
 
 import { getTodayHabits, markHabitAsDone, markHabitAsUndone } from "../../services/trackit";
 import { useState } from "react/cjs/react.development";
@@ -21,12 +21,14 @@ export default function Today() {
 
 	useEffect(() => {
 		updateTodayHabits();
-		
 	}, []);
 
-	if (todayHabits.length > 0) {
-		updateHabitCompletionProgress();
-	}
+	useEffect(() => {
+		if (todayHabits.length > 0) {
+			updateHabitCompletionProgress();
+		}
+	}, [todayHabits]);
+
 	function updateTodayHabits() {
 		getTodayHabits(loggedUser.token)
 			.then((resp) => {
@@ -63,12 +65,6 @@ export default function Today() {
 		}
 	}
 
-	function wasRecordeBroked(habit) {
-		if (habit.currentSequence >= habit.highestSequence && habit.highestSequence !== 0)
-			return true
-		return false
-	}
-
 	return (
 		<>
 			<Header></Header>
@@ -77,7 +73,9 @@ export default function Today() {
 				<h2>{habitCompletionProgress ? `${habitCompletionProgress}% dos hábitos concluídos` : "Nenhum hábito concluído ainda"}</h2>
 				<ul>
 					{todayHabits.length > 0 ? todayHabits.map((habit, index) => (
-						<TodayHabit isDone={habit.done}>
+						<TodayHabit key={habit.id}
+							isDone={habit.done}>
+
 							<Description>
 								<h1>{habit.name}</h1>
 								<p>{"Sequência atual: "}
@@ -85,15 +83,19 @@ export default function Today() {
 										{habit.currentSequence} dias
 									</CurrentSequence></p>
 								<p>{"Seu recorde: "}
-									<HighestSequence brokeRecorde={() => wasRecordeBroked(habit)}>
+									<HighestSequence
+										brokeRecorde={habit.currentSequence >= habit.highestSequence
+											&& habit.currentSequence > 0 ? true : false}>
 										{habit.highestSequence}
 									</HighestSequence> dias</p>
 							</Description>
+
 							<CheckButton
 								isDone={habit.done}
-								onClick={() => clickHabit(habit, index)}
-							>
+								onClick={() => clickHabit(habit, index)}>
+
 								<FaCheck />
+
 							</CheckButton>
 						</TodayHabit>
 					)) : "Nenhum hábito pra hoje!"
@@ -138,7 +140,7 @@ const CurrentSequence = styled.span`
 `
 
 const HighestSequence = styled.span`
-	color: ${props => props.brokeRecorde ? "#8FC549" : "inherit"}
+	color: ${props => props.brokeRecorde ? "#8FC549" : "inherit"};
 `
 const CheckButton = styled.button`
 	width: 69px;

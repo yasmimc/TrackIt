@@ -14,7 +14,7 @@ import Container from "../shared/Container";
 import Button from "../shared/Button";
 
 export default function Habits() {
-	const { loggedUser } = useContext(UserContext);	
+	const { loggedUser } = useContext(UserContext);
 
 	const defaultWeekDays = useDefaultWeekDays();
 
@@ -27,20 +27,19 @@ export default function Habits() {
 	const [habits, setHabits] = useState([]);
 
 	useEffect(() => {
-		if(loggedUser){
-		updateHabits();
+		if (loggedUser) {
+			updateHabits();
 		}
 
 	}, []);
 
 	function updateHabits() {
-		
-			getHabits(loggedUser.token)
+		getHabits(loggedUser.token)
 			.then((resp) => {
 				setHabits(resp.data)
 			})
 			.catch(() => updateHabits());
-	}	
+	}
 
 	return (
 		<Container>
@@ -61,7 +60,10 @@ export default function Habits() {
 
 			<HabitsList>
 				{habits.length > 0 ? habits.map((habit) => (
-					<Habit habit={habit} defaultWeekDays={defaultWeekDays} setHabits={setHabits} />
+					<Habit key={habit.id}
+						habit={habit}
+						defaultWeekDays={defaultWeekDays}
+						updateHabits={updateHabits} />
 				)) : <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>}
 
 			</HabitsList>
