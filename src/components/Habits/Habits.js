@@ -12,12 +12,11 @@ import NewHabitForm from "./NewHabitForm";
 
 import Container from "../shared/Container";
 import Button from "../shared/Button";
+import { useHistory } from "react-router";
 
 export default function Habits() {
+	const { loggedUser } = useContext(UserContext);	
 
-	const { loggedUser } = useContext(UserContext);
-
-	
 	const [creatingHabit, setCreatingHabit] = useState(false);
 
 	function newHabitBtn() {
@@ -27,17 +26,21 @@ export default function Habits() {
 	const [habits, setHabits] = useState([]);
 
 	useEffect(() => {
+		if(loggedUser){
 		updateHabits();
+		}
+
 	}, []);
 
-
 	function updateHabits() {
-		getHabits(loggedUser.token)
+		
+			getHabits(loggedUser.token)
 			.then((resp) => {
 				setHabits(resp.data)
 			})
 			.catch(() => updateHabits());
 	}
+	
 
 	return (
 		<Container>

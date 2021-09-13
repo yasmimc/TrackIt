@@ -3,15 +3,26 @@ import header_logo from "../../assets/images/header_logo.png";
 
 import UserContext from "../../contexts/UserContext";
 import { useContext } from "react";
-
+import { useHistory } from "react-router";
 export default function Header() {
 
 	const { loggedUser } = useContext(UserContext);
+
+	const history = useHistory();
+
+	if (!loggedUser) {
+		history.push("/");
+		return (
+			<>
+			</>
+		);
+	}
+
 	return (
 		<Container>
-			<img src={header_logo} alt="header-logo"/>
+			<img src={header_logo} alt="header-logo" />
 			<Profile>
-				<img src={loggedUser.image} alt="profileImg"/>
+				<img src={loggedUser.image} alt="profileImg" />
 			</Profile>
 		</Container>
 	);

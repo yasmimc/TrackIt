@@ -6,7 +6,7 @@ import { FaCheck } from "react-icons/fa"
 
 import UserContext from "../../contexts/UserContext";
 import HabitsContext from "../../contexts/HabitsContext";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect} from "react";
 
 import { getTodayHabits, markHabitAsDone, markHabitAsUndone } from "../../services/trackit";
 import { useState } from "react/cjs/react.development";
@@ -14,24 +14,21 @@ import dayjs from "dayjs";
 
 export default function Today() {
 	const { loggedUser } = useContext(UserContext);
+
 	const { habitCompletionProgress, setHabitCompletionProgress } = useContext(HabitsContext);
 
 	const [todayHabits, setTodayHabits] = useState([]);
 
 	useEffect(() => {
-		updateTodayHabits();
-	}, []);
-
-	useEffect(() => {
+		updateTodayHabits()
 		if (todayHabits.length > 0) {
 			updateHabitCompletionProgress();
 		}
-	});
+	}, []);
 
 	function updateTodayHabits() {
 		getTodayHabits(loggedUser.token)
 			.then((resp) => {
-				// console.log(resp)
 				setTodayHabits(resp.data);
 			});
 	}
@@ -156,5 +153,4 @@ const CheckButton = styled.button`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-
 `
