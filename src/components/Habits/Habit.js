@@ -13,7 +13,7 @@ export default function Habit({ habit, defaultWeekDays, updateHabits }) {
 
 	function deleteThisHabit() {
 		const confirmed = window.confirm("Tem certeza de que quer deletar este hábito?");
-		if (confirmed) 
+		if (confirmed)
 			deleteHabit(loggedUser.token, habit.id)
 				.then(() => updateHabits());
 	}
@@ -52,7 +52,6 @@ const Container = styled.div`
 		font-size: 16px;
 	}
 `
-
 const HabitName = styled.div`
 	display: flex;
 	justify-content: space-between;

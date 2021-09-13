@@ -21,7 +21,7 @@ export default function Habits() {
 	const [creatingHabit, setCreatingHabit] = useState(false);
 
 	function newHabitBtn() {
-		setCreatingHabit(true)
+		setCreatingHabit(true);
 	}
 
 	const [habits, setHabits] = useState([]);
@@ -43,7 +43,7 @@ export default function Habits() {
 
 	return (
 		<Container>
-			<Header></Header>
+			<Header />
 			<Title>
 				<h1>Meus hábitos</h1>
 				<Button width={40} height={35} onClick={newHabitBtn}>
@@ -68,15 +68,15 @@ export default function Habits() {
 
 			</HabitsList>
 
-			<Footer></Footer>
+			<Footer />
 		</Container>
 	);
 }
 
 const Title = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 `
 const HabitsList = styled.div`
 `

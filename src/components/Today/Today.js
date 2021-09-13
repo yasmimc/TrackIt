@@ -42,7 +42,7 @@ export default function Today() {
 	}
 
 	function getToday() {
-		require("dayjs/locale/pt-br")
+		require("dayjs/locale/pt-br");
 		const today = dayjs().locale('pt-br');
 		return today;
 	}
@@ -67,7 +67,7 @@ export default function Today() {
 
 	return (
 		<>
-			<Header></Header>
+			<Header />
 			<Container>
 				<h1>{getToday().locale('pt-br').format("dddd[, ]DD/MM")}</h1>
 				<h2>{habitCompletionProgress ? `${habitCompletionProgress}% dos hábitos concluídos` : "Nenhum hábito concluído ainda"}</h2>
@@ -102,7 +102,7 @@ export default function Today() {
 					}
 				</ul>
 			</Container>
-			<Footer ></Footer>
+			<Footer />
 		</>
 	);
 }
