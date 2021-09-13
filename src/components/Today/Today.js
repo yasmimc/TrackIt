@@ -36,7 +36,6 @@ export default function Today() {
 
 	function updateHabitCompletionProgress() {
 		const todayHabitsDone = todayHabits.filter(habit => habit.done);
-		console.log(todayHabitsDone);
 		setHabitCompletionProgress((todayHabitsDone.length / todayHabits.length * 100).toFixed(0));
 	}
 

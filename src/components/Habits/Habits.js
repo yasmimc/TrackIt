@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import UserContext from "../../contexts/UserContext";
 
 import { getHabits } from "../../services/trackit";
-import { defaultWeekDays } from "../../services/habits";
+import { useDefaultWeekDays } from "../../services/habits";
 
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
@@ -12,10 +12,11 @@ import NewHabitForm from "./NewHabitForm";
 
 import Container from "../shared/Container";
 import Button from "../shared/Button";
-import { useHistory } from "react-router";
 
 export default function Habits() {
 	const { loggedUser } = useContext(UserContext);	
+
+	const defaultWeekDays = useDefaultWeekDays();
 
 	const [creatingHabit, setCreatingHabit] = useState(false);
 
@@ -39,8 +40,7 @@ export default function Habits() {
 				setHabits(resp.data)
 			})
 			.catch(() => updateHabits());
-	}
-	
+	}	
 
 	return (
 		<Container>

@@ -33,7 +33,7 @@ export default function Login() {
                     image: resp.data.image,
                     token: resp.data.token
                 })
-                // console.log(loggedUser)
+                // (loggedUser)
                 setLoading(false)
                 history.push("/hoje");
             })

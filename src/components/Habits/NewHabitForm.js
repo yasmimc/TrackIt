@@ -9,46 +9,7 @@ import { createNewHabit } from "../../services/trackit";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Loader from "react-loader-spinner";
 
-function useDefaultWeekDays() {
-	return ([
-		{
-			id: 0,
-			value: "D",
-			isSelected: false
-		},
-		{
-			id: 1,
-			value: "S",
-			isSelected: false
-		},
-		{
-			id: 2,
-			value: "T",
-			isSelected: false
-		},
-		{
-			id: 3,
-			value: "Q",
-			isSelected: false
-		},
-		{
-			id: 4,
-			value: "Q",
-			isSelected: false
-		},
-		{
-			id: 5,
-			value: "S",
-			isSelected: false
-		},
-		{
-			id: 6,
-			value: "S",
-			isSelected: false
-		}
-	]
-	);
-}
+import { useDefaultWeekDays } from "../../services/habits";
 
 export default function NewHabitForm({ loggedUser, creatingHabit, setCreatingHabit, updateHabits }) {
 
